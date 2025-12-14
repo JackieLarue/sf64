@@ -119,11 +119,11 @@ void Titania_LevelStart(Player* player) {
             }
 
             if ((gCsFrameCount > 450) && (gCsFrameCount < 490)) {
-                Math_SmoothStepToF(&player->unk_170, 2.0f, 1.0f, 0.2f, 0.0f);
-                Math_SmoothStepToF(&player->unk_16C, 2.0f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustR, 2.0f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustL, 2.0f, 1.0f, 0.2f, 0.0f);
             } else {
-                Math_SmoothStepToF(&player->unk_170, 0.5f, 1.0f, 0.2f, 0.0f);
-                Math_SmoothStepToF(&player->unk_16C, 0.5f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustR, 0.5f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustL, 0.5f, 1.0f, 0.2f, 0.0f);
             }
 
             if (gCsFrameCount == 500) {
@@ -149,8 +149,8 @@ void Titania_LevelStart(Player* player) {
 
                 gBgColor = 0x2089; // 32, 16, 32
 
-                player->unk_16C = 0.5f;
-                player->unk_170 = 0.5f;
+                player->tankThrustL = 0.5f;
+                player->tankThrustR = 0.5f;
 
                 D_ctx_80177A48[2] = -270.0f;
                 D_ctx_80177A48[3] = 200.0f;
@@ -199,8 +199,8 @@ void Titania_LevelStart(Player* player) {
             Math_SmoothStepToF(&player->pos.y, D_ctx_80177A48[1], 0.1f, 50.0f, 0.0f);
 
             if (player->pos.y < 200.0f) {
-                Math_SmoothStepToF(&player->unk_170, 1.0f, 1.0f, 0.2f, 0.0f);
-                Math_SmoothStepToF(&player->unk_16C, 1.0f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustR, 1.0f, 1.0f, 0.2f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustL, 1.0f, 1.0f, 0.2f, 0.0f);
                 Math_SmoothStepToF(&D_ctx_80177A48[1], 70.0f, 0.05f, 1.0f, 0.0f);
                 Math_SmoothStepToF(&D_ctx_80177A48[3], 400.0f, 1.0f, 5.0f, 0.0f);
 
@@ -385,8 +385,8 @@ void Titania_LevelComplete(Player* player) {
                 camAtY = SIN_DEG(gGameFrameCount * 130.0f) * 3.0f;
             }
 
-            Math_SmoothStepToF(&player->unk_170, 2.0f, 1.0f, 0.2f, 0.0f);
-            Math_SmoothStepToF(&player->unk_16C, 2.0f, 1.0f, 0.2f, 0.0f);
+            Math_SmoothStepToF(&player->tankThrustR, 2.0f, 1.0f, 0.2f, 0.0f);
+            Math_SmoothStepToF(&player->tankThrustL, 2.0f, 1.0f, 0.2f, 0.0f);
 
             if (gCsFrameCount < 1470) {
                 Effect_TiDust_Spawn(RAND_FLOAT_CENTERED(30.0f) + (player->pos.x + 30.0f), 30.0f,

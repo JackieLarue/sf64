@@ -6,12 +6,17 @@
             "compilerArgs": [
                 "-m32"
             ],
-            "intelliSenseMode": "${default}", // Shouldn't matter
+            "intelliSenseMode": "linux-gcc-arm",
             "includePath": [
                 "${workspaceFolder}/**",
-                "src",
-                "build",
-                "include"
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/build",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/assets",
+                "${workspaceFolder}/include/libc",
+                "${workspaceFolder}/include/libultra",
+                "${workspaceFolder}/include/libultra/sys",                
+                "${workspaceFolder}/include/PR"
             ],
             "defines": [
                 "_LANGUAGE_C",
@@ -19,7 +24,7 @@
                 "_MIPS_SZLONG=32",
                 "F3DEX_GBI"
             ],
-            "cStandard": "gnu89", // C89 + some GNU extensions from C99 like C++ comments
+            "cStandard": "gnu89",
             "cppStandard": "${default}"
         }
     ],

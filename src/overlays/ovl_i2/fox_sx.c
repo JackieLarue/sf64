@@ -1556,8 +1556,8 @@ void SectorX_LevelStart(Player* player) {
                 player->pos.y = player->cam.eye.y + 50.0f;
                 player->csState++;
                 player->pos.z = player->cam.eye.z + 20.0f;
-                player->unk_194 = 10.0f;
-                player->unk_190 = 10.0f;
+                player->engineGlowScale = 10.0f;
+                player->engineGlowScaleTarget = 10.0f;
                 player->baseSpeed = 30.0f;
                 player->rot.z = -80.0f;
                 player->rot.x = -20.0f;
@@ -1865,8 +1865,8 @@ void SectorX_LevelComplete(Player* player) {
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             player->csState = 2;
             player->csTimer = 40;
-            player->unk_194 = 5.0f;
-            player->unk_190 = 5.0f;
+            player->engineGlowScale = 5.0f;
+            player->engineGlowScaleTarget = 5.0f;
             break;
     }
 

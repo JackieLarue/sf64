@@ -144,51 +144,51 @@ bool Display_OnFootCharacter_OverrideLimbDraw(s32 limbIndex, Gfx** gfxPtr, Vec3f
 
     if (player->num == 1) {
         if (limbIndex == 16) {
-            rot->y += player->unk_154;
-            rot->y -= player->unk_180;
+            rot->y += player->xRotGun;
+            rot->y -= player->tankYrot;
         }
         if (limbIndex == 22) {
-            rot->y += -player->unk_158 * 0.8f;
-            rot->x -= player->unk_15C;
+            rot->y += -player->xRotFace * 0.8f;
+            rot->x -= player->yRotFace;
         }
         if (limbIndex == 1) {
             gSPClearGeometryMode(gMasterDisp++, G_CULL_BACK);
-            rot->y += player->unk_164;
+            rot->y += player->xRotEarL;
         }
         if (limbIndex == 2) {
             gSPClearGeometryMode(gMasterDisp++, G_CULL_BACK);
-            rot->y += player->unk_164;
+            rot->y += player->xRotEarL;
         }
         if (limbIndex == 3) {
             gSPClearGeometryMode(gMasterDisp++, G_CULL_BACK);
-            rot->y += player->unk_168;
+            rot->y += player->xRotEarR;
         }
         if (limbIndex == 4) {
             gSPClearGeometryMode(gMasterDisp++, G_CULL_BACK);
-            rot->y += player->unk_168;
+            rot->y += player->xRotEarR;
         }
     } else {
         if (limbIndex == 11) {
             if (player->num == 0) {
-                rot->y += -player->unk_154 * 0.8f;
+                rot->y += -player->xRotGun * 0.8f;
             }
             if (player->num == 2) {
-                rot->y += player->unk_154;
-                rot->y -= player->unk_180;
+                rot->y += player->xRotGun;
+                rot->y -= player->tankYrot;
             }
             if (player->num == 3) {
-                rot->y += player->unk_154 * 0.8f;
+                rot->y += player->xRotGun * 0.8f;
             }
         }
         if (limbIndex == 16) {
-            rot->y += -player->unk_158 * 0.8f;
-            rot->x -= player->unk_15C;
+            rot->y += -player->xRotFace * 0.8f;
+            rot->x -= player->yRotFace;
         }
         if ((limbIndex == 17) && (player->num != 2)) {
-            rot->y += player->unk_180;
-            rot->x -= player->unk_180;
-            rot->y += -player->unk_158 * 0.2f;
-            rot->x += -player->unk_15C * 0.2f;
+            rot->y += player->tankYrot;
+            rot->x -= player->tankYrot;
+            rot->y += -player->xRotFace * 0.2f;
+            rot->x += -player->yRotFace * 0.2f;
         }
     }
     return false;
@@ -301,8 +301,8 @@ void Display_Landmaster(Player* player) {
 
     Matrix_MultVec3f(gGfxMatrix, &sp40, &D_display_80161518[player->num]);
     Matrix_Translate(gGfxMatrix, 0.0f, 51.0f, -10.0f, MTXF_APPLY);
-    Matrix_RotateY(gGfxMatrix, -player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gGfxMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gGfxMatrix, -player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gGfxMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
 
     if (gPlayerNum == player->num) {
         sp64 = 0.0f;
@@ -382,7 +382,7 @@ void Display_LandmasterThrusters(Player* player) {
         RCP_SetupDL(&gMasterDisp, SETUPDL_67);
     }
 
-    thrusterScale = player->unk_16C;
+    thrusterScale = player->tankThrustL;
     if (thrusterScale > 0.2f) {
         if (!gVersusMode) {
             thrusterScale *= 1.1f;
@@ -411,7 +411,7 @@ void Display_LandmasterThrusters(Player* player) {
         Matrix_Pop(&gGfxMatrix);
     }
 
-    thrusterScale = player->unk_170;
+    thrusterScale = player->tankThrustR;
     if (thrusterScale > 0.2f) {
         if (!gVersusMode) {
             thrusterScale *= 1.1f;
@@ -848,13 +848,13 @@ void Display_LandmasterEngineGlow_Draw(Player* player) {
     Matrix_RotateZ(gGfxMatrix, player->bankAngle * M_DTOR, MTXF_APPLY);
 
     if (player->form == FORM_LANDMASTER) {
-        if (player->unk_194 <= 0.0f) {
+        if (player->engineGlowScale <= 0.0f) {
             Matrix_Pop(&gGfxMatrix);
             return;
         }
-        Matrix_Scale(gGfxMatrix, player->unk_194, player->unk_194, 1.0f, MTXF_APPLY);
+        Matrix_Scale(gGfxMatrix, player->engineGlowScale, player->engineGlowScale, 1.0f, MTXF_APPLY);
     } else {
-        Matrix_Scale(gGfxMatrix, player->unk_194, player->unk_194, 1.0f, MTXF_APPLY);
+        Matrix_Scale(gGfxMatrix, player->engineGlowScale, player->engineGlowScale, 1.0f, MTXF_APPLY);
     }
 
     if ((gGameFrameCount % 2) != 0) {
@@ -1163,7 +1163,7 @@ void Display_PlayerFeatures(Player* player) {
                                MTXF_APPLY);
                 Matrix_Translate(gCalcMatrix, player->xShake, player->yBob, 0.0f, MTXF_APPLY);
 
-                var_fv0 = player->unk_194 * 30.0f;
+                var_fv0 = player->engineGlowScale * 30.0f;
                 if (var_fv0 > 30.0f) {
                     var_fv0 = 30.0f;
                 }
@@ -1319,7 +1319,7 @@ void Display_Player_Update(Player* player, s32 reflectY) {
             if (player->grounded) {
                 Matrix_Translate(gGfxMatrix, 0.0f, gCameraShakeY, 0.0f, MTXF_APPLY);
             }
-            Matrix_Translate(gGfxMatrix, player->pos.x, player->pos.y + player->unk_18C + 30.0f,
+            Matrix_Translate(gGfxMatrix, player->pos.x, player->pos.y + player->tankThrustYOff + 30.0f,
                              player->trueZpos + player->zPath, MTXF_APPLY);
             if (gVersusMode) {
                 for (i = 0; i < gCamCount; i++) {

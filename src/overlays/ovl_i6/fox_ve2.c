@@ -397,15 +397,15 @@ void Venom2_LevelComplete(Player* player) {
                     player->xRot_120 -= 360.0f;
                 }
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 gCsFrameCount = 0;
                 Audio_SetBgmParam(0);
             }
             break;
 
         case 2:
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             Math_SmoothStepToF(&player->xRot_120, 270.0f, 0.1f, D_ctx_80177A48[2], 0.0f);
             Math_SmoothStepToF(&D_ctx_80177A48[2], 4.0f, 1.0f, 0.05f, 0.0f);
@@ -429,8 +429,8 @@ void Venom2_LevelComplete(Player* player) {
 
             if (gCsFrameCount == 105) {
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
             }
             if (gCsFrameCount > 110) {
                 gFillScreenAlphaTarget = 255;

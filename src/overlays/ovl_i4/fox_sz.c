@@ -1035,8 +1035,8 @@ void SectorZ_LevelStart(Player* player) {
             break;
 
         case 760:
-            player->unk_194 = 5.0f;
-            player->unk_190 = 5.0f;
+            player->engineGlowScale = 5.0f;
+            player->engineGlowScaleTarget = 5.0f;
             player->yRot_114 = 90.0f;
             player->baseSpeed = gArwingSpeed;
             player->draw = true;
@@ -1170,14 +1170,14 @@ void SectorZ_LevelComplete(Player* player) {
                 player->csState = 1001;
                 player->csTimer = 100;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 gProjectFar = 30000.0f;
             }
             break;
 
         case 1001:
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             Math_SmoothStepToF(&player->rot.x, 15.0f, 0.1f, 0.4f, 0);
             Math_SmoothStepToF(&player->rot.z, 40.0f, 0.2f, 5.0f, 0);
@@ -1377,7 +1377,7 @@ void SectorZ_LevelComplete(Player* player) {
             if (gCsFrameCount > 2510) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
             }
 
             if (gCsFrameCount > 2550) {
@@ -1566,7 +1566,7 @@ void SectorZ_LevelComplete(Player* player) {
 
         case 2510:
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-            player->unk_190 = player->unk_194 = 5.0f;
+            player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
             break;
 
         case 2550:

@@ -1363,14 +1363,14 @@ void Bolse_LevelComplete(Player* player) {
                 player->csState = 1;
                 player->csTimer = 200;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 gProjectFar = 30000.0f;
             }
             break;
 
         case 1:
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             Math_SmoothStepToF(&player->rot.x, 15.0f, 0.1f, 0.4f, 0.0f);
             Math_SmoothStepToF(&player->rot.z, 40.0f, 0.2f, 5.0f, 0.0f);
@@ -1581,8 +1581,8 @@ void Bolse_LevelComplete(Player* player) {
                 case 800:
                     player->csState++;
                     player->csTimer = 50;
-                    player->unk_194 = 5.0f;
-                    player->unk_190 = 5.0f;
+                    player->engineGlowScale = 5.0f;
+                    player->engineGlowScaleTarget = 5.0f;
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
                     break;
             }
@@ -1593,7 +1593,7 @@ void Bolse_LevelComplete(Player* player) {
             gCsCamAtY = gPlayer[0].pos.y;
             gCsCamAtZ = gPlayer[0].pos.z + 200.0f;
 
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->baseSpeed += 5;
 
             if (player->csTimer == 30) {

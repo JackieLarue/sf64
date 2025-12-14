@@ -9,8 +9,8 @@ void Turret_SetupShot(Player* player, PlayerShot* shot, f32 xOffset, f32 yOffset
     Matrix_RotateY(gCalcMatrix, player->unk_000 * M_DTOR, MTXF_NEW);
     Matrix_RotateX(gCalcMatrix, player->unk_004 * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, player->rot.z * M_DTOR, MTXF_APPLY);
-    Matrix_RotateY(gCalcMatrix, player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gCalcMatrix, player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     sp4C.x = xOffset;
     sp4C.y = yOffset;
     sp4C.z = zOffset;
@@ -18,8 +18,8 @@ void Turret_SetupShot(Player* player, PlayerShot* shot, f32 xOffset, f32 yOffset
     Matrix_RotateY(gCalcMatrix, player->unk_000 * M_DTOR, MTXF_NEW);
     Matrix_RotateX(gCalcMatrix, player->unk_004 * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, player->rot.z * M_DTOR, MTXF_APPLY);
-    Matrix_RotateY(gCalcMatrix, player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gCalcMatrix, player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     Matrix_RotateY(gCalcMatrix, player->rot.y * M_DTOR, MTXF_APPLY);
     Matrix_RotateX(gCalcMatrix, player->rot.x * M_DTOR, MTXF_APPLY);
     sp4C.x = sp4C.y = 0.0f;
@@ -40,8 +40,8 @@ void Turret_SetupShot(Player* player, PlayerShot* shot, f32 xOffset, f32 yOffset
     shot->obj.rot.y = sp4C.y;
     shot->obj.rot.z = sp4C.z;
 
-    shot->unk_48 = player->unk_17C;
-    shot->unk_4C = player->unk_180;
+    shot->unk_48 = player->tankXrot;
+    shot->unk_4C = player->tankYrot;
     shot->unk_50 = player->unk_004;
     shot->unk_54 = player->unk_000;
 
@@ -215,8 +215,8 @@ void Turret_Update(Player* player) {
     if (gControllerPress[player->num].button & B_BUTTON) {
         player->unk_008 = player->unk_00C = 0.0f;
     }
-    Math_SmoothStepToF(&player->unk_180, -player->unk_008, 0.5f, 3.0f, 0.00001f);
-    Math_SmoothStepToF(&player->unk_17C, -player->unk_00C, 0.5f, 3.0f, 0.00001f);
+    Math_SmoothStepToF(&player->tankYrot, -player->unk_008, 0.5f, 3.0f, 0.00001f);
+    Math_SmoothStepToF(&player->tankXrot, -player->unk_00C, 0.5f, 3.0f, 0.00001f);
     Turret_Shoot(player);
 }
 
@@ -230,8 +230,8 @@ void Turret_UpdateCamera(Player* player) {
     Matrix_RotateY(gCalcMatrix, (player->unk_000 + (player->damageShake * 0.3f)) * M_DTOR, MTXF_NEW);
     Matrix_RotateX(gCalcMatrix, (player->unk_004 + (player->damageShake * 0.3f)) * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, player->rot.z * M_DTOR, MTXF_APPLY);
-    Matrix_RotateY(gCalcMatrix, player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gCalcMatrix, player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     // unclear what values are being multiplied by 0.0f
     Matrix_RotateY(gCalcMatrix, (0.0f * player->unk_000) * M_DTOR, MTXF_APPLY);
     Matrix_RotateX(gCalcMatrix, (0.0f * player->unk_004) * M_DTOR, MTXF_APPLY);

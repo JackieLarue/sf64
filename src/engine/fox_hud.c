@@ -1770,7 +1770,7 @@ void HUD_RadarMark_Missile_Draw(void) {
     gSPDisplayList(gMasterDisp++, aSzMissileRadarMarkDL);
 }
 
-f32 D_800D1E10 = 0.0f;
+f32 sRadarMoveX = 0.0f;
 
 void HUD_RadarMark_Arwing_Draw(s32 colorIdx) {
     s32 arwingMarkColor[][4] = {
@@ -1912,7 +1912,7 @@ void HUD_RadarMark_Draw(s32 type) {
             HUD_RadarMark_Boss_Draw();
             break;
 
-        case RADARMARK_SUPPIES:
+        case RADARMARK_SUPPLIES:
             if (gVersusMode == true) {
                 HUD_RadarMark_Item_Draw();
             } else {
@@ -1998,7 +1998,7 @@ void HUD_RadarMarks_Setup(void) {
         }
 
         if ((gGameFrameCount % 64) != 0) {
-            gRadarMarks[i].type = 999;
+            gRadarMarks[i].type = RADARMARK_NOTHING;
         }
     }
 
@@ -2006,7 +2006,7 @@ void HUD_RadarMarks_Setup(void) {
         for (i = 0, item = &gItems[0]; i < ARRAY_COUNT(gItems); i++, item++) {
             if (item->obj.status >= OBJ_ACTIVE) {
                 gRadarMarks[item->index + 50].enabled = true;
-                gRadarMarks[item->index + 50].type = 103;
+                gRadarMarks[item->index + 50].type = RADARMARK_SUPPLIES; 
                 gRadarMarks[item->index + 50].pos.x = item->obj.pos.x;
                 gRadarMarks[item->index + 50].pos.y = item->obj.pos.y;
                 gRadarMarks[item->index + 50].pos.z = item->obj.pos.z;
@@ -2026,8 +2026,8 @@ s32 HUD_RadarMarks_Update(void) {
     f32 y;
     s32 pad;
     f32 temp;
-    f32 temp2;
-    f32 temp3;
+    f32 range;
+    f32 mult;
 
     if (!gVersusMode) {
         if (gLevelMode != LEVELMODE_ALL_RANGE) {
@@ -2039,61 +2039,61 @@ s32 HUD_RadarMarks_Update(void) {
         }
 
         if (gLevelStartStatusScreenTimer != 0) {
-            D_800D1E10 = 60.0f;
+            sRadarMoveX = 60.0f;
         } else {
-            Math_SmoothStepToF(&D_800D1E10, 0.0f, 0.3f, 10.0f, 0.1f);
+            Math_SmoothStepToF(&sRadarMoveX, 0.0f, 0.3f, 10.0f, 0.1f);
         }
 
-        if (D_800D1E10 == 60.0f) {
+        if (sRadarMoveX == 60.0f) {
             return 0;
         }
 
         switch (gCurrentLevel) {
             case LEVEL_SECTOR_Z:
-                temp2 = 20000.0f;
+                range = 20000.0f;
                 y1 = -360.0f;
                 x1 = 542.0f;
                 z1 = -1584.0f;
-                temp3 = 7.5f;
+                mult = 7.5f;
                 scale = 0.02f;
                 break;
 
             case LEVEL_CORNERIA:
-                temp2 = 8000.0f;
+                range = 8000.0f;
                 y1 = -142.0f;
                 x1 = 214.0f;
                 z1 = -626.0f;
-                temp3 = 3.0f;
+                mult = 3.0f;
                 scale = 0.008f;
                 break;
 
             case LEVEL_BOLSE:
-                temp2 = 10000.0f;
+                range = 10000.0f;
                 y1 = -178.0f;
                 x1 = 268.0f;
                 z1 = -784.0f;
-                temp3 = 3.7f;
+                mult = 3.7f;
                 scale = 0.01f;
                 break;
 
             default:
-                temp2 = 12500.0f;
+                range = 12500.0f;
                 y1 = -220.0f;
                 x1 = 330.0f;
                 z1 = -970.0f;
-                temp3 = 4.7f;
+                mult = 4.7f;
                 scale = 0.013f;
                 break;
         }
 
-        x = 254.000f + D_800D1E10;
+        x = 254.000f + sRadarMoveX;
         y = 162.000f;
-        x1 += D_800D1E10 * temp3;
+        x1 += sRadarMoveX * mult;
     } else {
         if (!gVsMatchStart || gVsMatchOver) {
             return 0;
         }
-        temp2 = 13000.00f;
+        range = 13000.00f;
 
         scale = 0.03f;
         z1 = -885.00f;
@@ -2113,40 +2113,40 @@ s32 HUD_RadarMarks_Update(void) {
 
         switch (gCurrentLevel) {
             case LEVEL_SECTOR_Z:
-                Lib_TextureRect_IA8(&gMasterDisp, aSzGreatFoxRadarMark, 16, 9, 251.0f + D_800D1E10, 181.0f, 1.00f,
+                Lib_TextureRect_IA8(&gMasterDisp, aSzGreatFoxRadarMark, 16, 9, 251.0f + sRadarMoveX, 181.0f, 1.00f,
                                     1.00f);
                 break;
 
             case LEVEL_FORTUNA:
-                Lib_TextureRect_IA8(&gMasterDisp, aFoBaseRadarMarkTex, 16, 16, 251.0f + D_800D1E10, 178.0f, 1.00f,
+                Lib_TextureRect_IA8(&gMasterDisp, aFoBaseRadarMarkTex, 16, 16, 251.0f + sRadarMoveX, 178.0f, 1.00f,
                                     1.00f);
                 break;
 
             case LEVEL_BOLSE:
-                Lib_TextureRect_IA8(&gMasterDisp, aBoDefenseOutpostRadarMarkTex, 16, 16, 251.0f + D_800D1E10, 178.0f,
+                Lib_TextureRect_IA8(&gMasterDisp, aBoDefenseOutpostRadarMarkTex, 16, 16, 251.0f + sRadarMoveX, 178.0f,
                                     1.00f, 1.00f);
                 break;
 
             case LEVEL_SECTOR_Y:
-                if ((fabsf(gScenery360[0].obj.pos.x) < temp2 + 1000.0f) &&
-                    (fabsf(gScenery360[0].obj.pos.z) < temp2 + 1000.0f)) {
+                if ((fabsf(gScenery360[0].obj.pos.x) < range + 1000.0f) &&
+                    (fabsf(gScenery360[0].obj.pos.z) < range + 1000.0f)) {
                     temp = 150.0f + ((12500.0f + gScenery360[0].obj.pos.z) / 446.42f);
 
                     if ((y < 150.0f) || (y > 206.0f)) {
                         break;
                     }
-                    Lib_TextureRect_IA8(&gMasterDisp, aSySaruzinRadarMark, 64, 64, 250.0f + D_800D1E10, temp, 0.25f,
+                    Lib_TextureRect_IA8(&gMasterDisp, aSySaruzinRadarMark, 64, 64, 250.0f + sRadarMoveX, temp, 0.25f,
                                         0.25f);
                 }
                 break;
 
             case LEVEL_KATINA:
-                Lib_TextureRect_IA8(&gMasterDisp, aKaFLBaseRadarMarkTex, 8, 8, 254.0f + D_800D1E10, 182.0f, 1.00f,
+                Lib_TextureRect_IA8(&gMasterDisp, aKaFLBaseRadarMarkTex, 8, 8, 254.0f + sRadarMoveX, 182.0f, 1.00f,
                                     1.00f);
                 break;
 
             case LEVEL_VENOM_2:
-                Lib_TextureRect_IA8(&gMasterDisp, aVe2EntranceRadarMarkTex, 16, 16, 251.0f + D_800D1E10, 178.0f, 1.00f,
+                Lib_TextureRect_IA8(&gMasterDisp, aVe2EntranceRadarMarkTex, 16, 16, 251.0f + sRadarMoveX, 178.0f, 1.00f,
                                     1.00f);
                 break;
         }
@@ -2163,15 +2163,15 @@ s32 HUD_RadarMarks_Update(void) {
     }
 
     for (i = ARRAY_COUNT(gRadarMarks) - 1; i >= 0; i--) {
-        if ((gRadarMarks[i].enabled == 0) || (fabsf(gRadarMarks[i].pos.x) >= (temp2 + 1000.0f)) ||
-            (fabsf(gRadarMarks[i].pos.z) >= (temp2 + 1000.0f))) {
+        if ((gRadarMarks[i].enabled == 0) || (fabsf(gRadarMarks[i].pos.x) >= (range + 1000.0f)) ||
+            (fabsf(gRadarMarks[i].pos.z) >= (range + 1000.0f))) {
             continue;
         }
 
         Matrix_Push(&gGfxMatrix);
         Matrix_Translate(gGfxMatrix, gRadarMarks[i].pos.x * 0.008f, -gRadarMarks[i].pos.z * 0.008f, 0.0f, MTXF_APPLY);
 
-        if (gRadarMarks[i].type == 103) {
+        if (gRadarMarks[i].type == RADARMARK_SUPPLIES) {
             gRadarMarks[i].yRot = 45.0f;
         }
 
@@ -5782,7 +5782,7 @@ void Aquas_CsLevelComplete(Player* player) {
             player->pos.y = 100.0f;
             player->pos.x = -100.0f;
             player->barrelRollAlpha = 0;
-            player->unk_17C = player->unk_180 = 0.0f;
+            player->tankXrot = player->tankYrot = 0.0f;
 
             gAquasSurfaceColorR = gAquasSurfaceColorG = gAquasSurfaceColorB = 255;
             gAquasSurfaceAlpha2 = 0;
@@ -6018,7 +6018,7 @@ void Aquas_CsLevelComplete(Player* player) {
                            player->pos.z + dest.z + RAND_FLOAT_CENTERED(10.0f), 0.4f, 1);
     }
 
-    player->unk_178 += 20.0f;
+    player->tankZd += 20.0f;
 
     Math_SmoothStepToF(&player->cam.eye.x, gCsCamEyeX, D_ctx_80177A48[0], 50000.0f, 0.001f);
     Math_SmoothStepToF(&player->cam.eye.y, gCsCamEyeY, D_ctx_80177A48[0], 50000.0f, 0.001f);
@@ -6097,7 +6097,7 @@ void Venom1_LevelStart2(Player* player) {
             gCsCamAtZ = player->pos.z;
 
             if (gCsFrameCount == 270) {
-                player->unk_190 = player->unk_194 = 10.0f;
+                player->engineGlowScaleTarget = player->engineGlowScale = 10.0f;
                 player->csState = 2;
                 D_ctx_80177A48[1] = 400.0f;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_DASH, player->sfxSource, 0);

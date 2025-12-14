@@ -188,8 +188,8 @@ void Cutscene_WarpZoneComplete(Player* player) {
 
                 case 450:
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                    player->unk_194 = 5.0f;
-                    player->unk_190 = 5.0f;
+                    player->engineGlowScale = 5.0f;
+                    player->engineGlowScaleTarget = 5.0f;
 
                 default:
                     break;
@@ -199,7 +199,7 @@ void Cutscene_WarpZoneComplete(Player* player) {
                 Math_SmoothStepToF(&D_ctx_80177A48[0], 1.0f, 0.1f, 0.004f, 0.0f);
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
 
                 if (gCsFrameCount == 530) {
                     Audio_FadeOutAll(50);
@@ -453,7 +453,7 @@ void Cutscene_EnterWarpZone(Player* player) {
                 player->csState = 2;
                 player->csTimer = 150;
             }
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->camDist -= 2.0f;
             gBlurAlpha = 128;
             break;
@@ -467,8 +467,8 @@ void Cutscene_EnterWarpZone(Player* player) {
             if (player->csTimer <= 100) {
                 if (player->csTimer == 100) {
                     Play_PlaySfxFirstPlayer(player->sfxSource, NA_SE_ARWING_WARP_DASH);
-                    player->unk_194 = 5.0f;
-                    player->unk_190 = 5.0f;
+                    player->engineGlowScale = 5.0f;
+                    player->engineGlowScaleTarget = 5.0f;
                 }
 
                 player->camDist += player->warpCamSpeed;
@@ -481,7 +481,7 @@ void Cutscene_EnterWarpZone(Player* player) {
                 }
             }
 
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             if ((player->csTimer == 95) && (gTeamShields[TEAM_ID_FALCO] > 0)) {
                 falco->state = 1;
@@ -831,8 +831,8 @@ void Cutscene_AllRangeMode(Player* player) {
                 player->state = PLAYERSTATE_ACTIVE;
                 player->unk_014 = 0.0f;
                 player->unk_018 = 0.1f;
-                player->unk_194 = 10.0f;
-                player->unk_190 = 10.0f;
+                player->engineGlowScale = 10.0f;
+                player->engineGlowScaleTarget = 10.0f;
 
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
 
@@ -1206,15 +1206,15 @@ void Cutscene_CoComplete2(Player* player) {
                 player->csState = 4;
                 player->csTimer = 30;
                 player->unk_000 = 0.0f;
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
             }
             break;
 
         case 4:
             gStarfieldScrollY += 0.2f;
             gStarfieldScrollX += 0.2f;
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->contrailScale += 0.1f;
             if (player->contrailScale > 0.6f) {
                 player->contrailScale = 0.6f;
@@ -1466,8 +1466,8 @@ void Cutscene_UTurn(Player* player) {
                 }
                 player->csState = 3;
                 Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
-                player->unk_194 = 7.0f;
-                player->unk_190 = 7.0f;
+                player->engineGlowScale = 7.0f;
+                player->engineGlowScaleTarget = 7.0f;
             }
             player->unk_004 -= 0.2f;
             break;
@@ -1485,7 +1485,7 @@ void Cutscene_UTurn(Player* player) {
             Math_SmoothStepToF(&player->arwing.upperLeftFlapYrot, sp58.z, 0.3f, 100.0f, 0.0f);
             Math_SmoothStepToF(&player->arwing.bottomLeftFlapYrot, sp58.z, 0.3f, 100.0f, 0.0f);
 
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->cam.eye.x += player->vel.x * 0.1f;
             player->cam.eye.z += player->vel.z * 0.1f;
 

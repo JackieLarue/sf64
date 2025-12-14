@@ -154,5 +154,11 @@
     "ast_map.h": "c",
     "ast_radio.h": "c"
   },
-  "C_Cpp_Runner.msvcBatchPath": ""
+  "clangd.fallbackFlags": [
+    "-D_LANGUAGE_C",
+    "-D_MIPS_SZLONG=32",
+    "-I${workspaceFolder}/include"
+  ],
+"C_Cpp_Runner.msvcBatchPath": "",
+"cmake.ignoreCMakeListsMissing": true
 }

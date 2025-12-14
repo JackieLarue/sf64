@@ -220,34 +220,34 @@ typedef struct Player {
     /* 0x11C */ f32 yRotVel_11C;
     /* 0x120 */ f32 xRot_120;
     /* 0x124 */ f32 pathChangePitch;
-    /* 0x128 */ char pad128[4];
+    /* 0x128 */ f32 unk_128;
     /* 0x12C */ f32 zRotBank;
     /* 0x130 */ f32 zRotBarrelRoll;
     /* 0x134 */ f32 damageShake;
     /* 0x138 */ f32 trueZpos; // the actual position of the arwing. pos.z is its z position along the path
-    /* 0x13C */ char pad13C[4];
+    /* 0x13C */ f32 unk_13C;
     /* 0x140 */ f32 zPathVel;
     /* 0x144 */ f32 zPath;
     /* 0x148 */ f32 unk_148; // affects how cam eye follows the player
     /* 0x14C */ f32 unk_14C; // affects how cam at follows the player
     /* 0x150 */ f32 unk_150;
-    /* 0x154 */ f32 unk_154;
-    /* 0x158 */ f32 unk_158;
-    /* 0x15C */ f32 unk_15C;
-    /* 0x160 */ char pad160[4];
-    /* 0x164 */ f32 unk_164;
-    /* 0x168 */ f32 unk_168;
-    /* 0x16C */ f32 unk_16C;
-    /* 0x170 */ f32 unk_170;
-    /* 0x174 */ f32 unk_174;
-    /* 0x178 */ f32 unk_178;
-    /* 0x17C */ f32 unk_17C;
-    /* 0x180 */ f32 unk_180;
-    /* 0x184 */ f32 unk_184;
-    /* 0x188 */ f32 unk_188;
-    /* 0x18C */ f32 unk_18C;
-    /* 0x190 */ f32 unk_190; // Related to engine glow. Investigate
-    /* 0x194 */ f32 unk_194; // Related to engine glow. Investigate
+    /* 0x154 */ f32 xRotGun;
+    /* 0x158 */ f32 xRotFace;
+    /* 0x15C */ f32 yRotFace;
+    /* 0x160 */ f32 unk_160;
+    /* 0x164 */ f32 xRotEarL;
+    /* 0x168 */ f32 xRotEarR;
+    /* 0x16C */ f32 tankThrustL;
+    /* 0x170 */ f32 tankThrustR;
+    /* 0x174 */ f32 tankYd;
+    /* 0x178 */ f32 tankZd;
+    /* 0x17C */ f32 tankXrot;
+    /* 0x180 */ f32 tankYrot;
+    /* 0x184 */ f32 tankXSpdRoll;
+    /* 0x188 */ f32 tankZRotBankOff;
+    /* 0x18C */ f32 tankThrustYOff;
+    /* 0x190 */ f32 engineGlowScaleTarget;
+    /* 0x194 */ f32 engineGlowScale;
     /* 0x198 */ s32 savedAlternateView;
     /* 0x19C */ s32 unk_19C; // used to indicate whether a U-turn is forced, whether to draw ground in TI intro, and to stop the landmaster
     /* 0x1A0 */ s32 unk_1A0; // tank muzzle flash timer
@@ -294,7 +294,7 @@ typedef struct Player {
     /* 0x248 */ f32 shadowRotX; // forms YPR triple with groundRotY
     /* 0x24C */ f32 shadowRotZ;
     /* 0x250 */ f32 unk_250; // checked for by event actors, but unused?
-    /* 0x250 */ char pad254[4];
+    /* 0x250 */ f32 unk_254;
     /* 0x258 */ f32 meteoWarpSpinSpeed;
     /* 0x25C */ f32 contrailScale;
     /* 0x260 */ char pad260[4];
@@ -302,7 +302,7 @@ typedef struct Player {
     /* 0x268 */ s32 damage;
     /* 0x26C */ s32 heal;
     /* 0x270 */ s32 unk_270; // checked for by event actors, but unused?
-    /* 0x274 */ char pad274[4];
+    /* 0x274 */ s32 unk_274;
     /* 0x278 */ s32 timer_278;
     /* 0x27C */ s32 meteoWarpTimer;
     /* 0x280 */ s32 barrelRollAlpha;

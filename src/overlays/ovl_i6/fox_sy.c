@@ -2250,7 +2250,7 @@ void SectorY_LevelComplete(Player* player) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.0f, 1.0f, 0.001f, 0);
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
             } else if (D_ctx_80177A48[1] >= 92.0f) {
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.3f, 1.0f, 0.0018f, 0);
             } else {
@@ -2358,8 +2358,8 @@ void SectorY_LevelComplete(Player* player) {
 
         case 1440:
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-            player->unk_194 = 5.0f;
-            player->unk_190 = 5.0f;
+            player->engineGlowScale = 5.0f;
+            player->engineGlowScaleTarget = 5.0f;
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM, 50);
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 50);
             break;
@@ -3300,8 +3300,8 @@ void SectorY_LevelStart(Player* player) {
                     break;
 
                 case 545:
-                    player->unk_194 = 10.0f;
-                    player->unk_190 = 10.0f;
+                    player->engineGlowScale = 10.0f;
+                    player->engineGlowScaleTarget = 10.0f;
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
                     gControllerRumbleFlags[gMainController] = 1;
                     gControllerRumbleTimers[gMainController] = 5;

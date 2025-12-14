@@ -4924,7 +4924,7 @@ void Zoness_LevelComplete(Player* player) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.0f, 1.0f, 0.001f, 0);
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
 
                 if (!gMissedZoSearchlight) {
                     Math_SmoothStepToF(&D_ctx_80177A48[0], 1.0f, 1.0f, 0.025f, 0.0f);
@@ -5023,7 +5023,7 @@ void Zoness_LevelComplete(Player* player) {
 
         case 1180:
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-            player->unk_190 = player->unk_194 = 5.0f;
+            player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
             break;
 
         case 1240:

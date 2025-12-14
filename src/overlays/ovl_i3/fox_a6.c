@@ -2383,8 +2383,8 @@ void Area6_LevelStart(Player* player) {
             }
 
             if (gCsFrameCount == 460) {
-                player->unk_190 = 2.0f;
-                player->unk_194 = 5.0f;
+                player->engineGlowScaleTarget = 2.0f;
+                player->engineGlowScale = 5.0f;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             }
 
@@ -2610,8 +2610,8 @@ void Area6_LevelComplete(Player* player) {
             gCsFrameCount = 0;
             player->csState = 1;
             player->arwing.drawFace = true;
-            player->unk_194 = 5.0f;
-            player->unk_190 = 2.0f;
+            player->engineGlowScale = 5.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->baseSpeed = 60.0f;
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             D_ctx_80177A48[3] = 0.0f;
@@ -2803,8 +2803,8 @@ void Area6_LevelComplete(Player* player) {
 
             if (gCsFrameCount == 1076) {
                 Object_Kill(&gActors[0].obj, gActors[0].sfxSource);
-                player->unk_190 = 2.0f;
-                player->unk_194 = 5.0f;
+                player->engineGlowScaleTarget = 2.0f;
+                player->engineGlowScale = 5.0f;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             }
 

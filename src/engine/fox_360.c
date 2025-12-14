@@ -216,7 +216,7 @@ void AllRange_GreatFoxRepair(Player* player) {
             gFillScreenAlphaStep = 32;
             gCsCamEyeZ -= 1.0f;
             if (gFillScreenAlpha == 0) {
-                player->unk_190 = player->unk_194 = 5.0f;
+                player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
                 player->yRot_114 = 90.0f;
                 player->baseSpeed = gArwingSpeed;
                 player->csState++;

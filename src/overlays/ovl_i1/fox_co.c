@@ -3295,8 +3295,8 @@ void Corneria_LevelStart(Player* player) {
                 player->csState = 9;
                 Play_PlaySfxFirstPlayer(player->sfxSource, NA_SE_ARWING_BOOST);
                 player->csTimer = 3;
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
             }
             break;
 
@@ -3311,7 +3311,7 @@ void Corneria_LevelStart(Player* player) {
 
             D_ctx_80177A48[0] = 0.03f;
 
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             if (player->csTimer == 0) {
                 gFillScreenAlphaTarget = 255;
@@ -3590,8 +3590,8 @@ void Corneria_LevelComplete1(Player* player) {
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
                 player->csState++;
                 player->baseSpeed = 2.0f;
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
             }
             break;
 
@@ -3602,7 +3602,7 @@ void Corneria_LevelComplete1(Player* player) {
                 if (player->contrailScale > 0.6f) {
                     player->contrailScale = 0.6f;
                 }
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
             }
 
             if (gCsFrameCount == 1290) {

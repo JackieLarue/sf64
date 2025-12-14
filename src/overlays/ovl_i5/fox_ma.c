@@ -6515,8 +6515,8 @@ void Macbeth_LevelComplete2(Player* player) {
                 player->zRotBarrelRoll = player->zRotBank = 0.0f;
             player->yBob = 0.0f;
             player->rockAngle = 0.0f;
-            player->unk_16C = 0.0f;
-            player->unk_170 = 0.0f;
+            player->tankThrustL = 0.0f;
+            player->tankThrustR = 0.0f;
             player->arwing.upperRightFlapYrot = 0.0f;
             /* fallthrough */
         case 1:
@@ -6948,10 +6948,10 @@ void Macbeth_LevelComplete2(Player* player) {
                 player->cam.at.z = gCsCamAtZ = player->trueZpos + gPathProgress;
 
                 player->savedAlternateView = player->pathChangeTimer = 0;
-                player->unk_190 = player->unk_194 = player->unk_188 = player->unk_18C = player->pathChangeYaw =
-                    player->yRot_114 = player->aerobaticPitch = player->camRoll = player->unk_174 = player->unk_178 =
-                        player->unk_17C = player->unk_180 = player->unk_184 = player->arwing.upperRightFlapYrot =
-                            player->unk_170 = player->unk_16C = player->rockAngle = player->yBob =
+                player->engineGlowScaleTarget = player->engineGlowScale = player->tankZRotBankOff = player->tankThrustYOff = player->pathChangeYaw =
+                    player->yRot_114 = player->aerobaticPitch = player->camRoll = player->tankYd = player->tankZd =
+                        player->tankXrot = player->tankYrot = player->tankXSpdRoll = player->arwing.upperRightFlapYrot =
+                            player->tankThrustR = player->tankThrustL = player->rockAngle = player->yBob =
                                 player->arwing.upperLeftFlapYrot = player->arwing.bottomRightFlapYrot =
                                     player->arwing.bottomLeftFlapYrot = player->zRotBarrelRoll = player->zRotBank =
                                         player->boostSpeed = 0.0f;
@@ -6965,7 +6965,7 @@ void Macbeth_LevelComplete2(Player* player) {
                 player->pos.y = gGroundHeight - 3.0f;
                 player->vel.y = -3.0f;
 
-                player->rollState = player->boostCooldown = player->boostMeter = player->unk_184 = player->rot_104.y =
+                player->rollState = player->boostCooldown = player->boostMeter = player->tankXSpdRoll = player->rot_104.y =
                     player->rot_104.z = player->rot.y = player->rot.x = player->rot_104.x = 0.0f;
                 player->rollInputTimerL = player->sfx.bank = 0;
             }
@@ -7005,8 +7005,8 @@ void Macbeth_LevelComplete2(Player* player) {
             }
             if (gCsFrameCount >= 2160) {
                 player->vel.y = 4.0f;
-                Math_SmoothStepToF(&player->unk_170, 2.0f, 1.0f, 0.3f, 0.0f);
-                Math_SmoothStepToF(&player->unk_16C, 2.0f, 1.0f, 0.3f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustR, 2.0f, 1.0f, 0.3f, 0.0f);
+                Math_SmoothStepToF(&player->tankThrustL, 2.0f, 1.0f, 0.3f, 0.0f);
                 if ((gCsFrameCount >= 2165) && (gCsFrameCount <= 2180)) {
                     Effect_Effect362_Spawn(player->pos.x + RAND_FLOAT_CENTERED(30.0f), 0.0f,
                                            RAND_FLOAT_CENTERED(30.0f) + player->trueZpos, RAND_FLOAT(2.0f) + 3.5f);

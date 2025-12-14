@@ -3949,7 +3949,7 @@ void Andross_LevelComplete(Player* player) {
                 case 111:
                     player->csState = 2;
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                    player->unk_190 = player->unk_194 = 7.0f;
+                    player->engineGlowScaleTarget = player->engineGlowScale = 7.0f;
                     D_ctx_80177A48[0] = 0.0f;
                     D_ctx_80177A48[1] = 0.0f;
                     D_ctx_80177A48[2] = 0.5f;
@@ -3966,7 +3966,7 @@ void Andross_LevelComplete(Player* player) {
             break;
 
         case 2: // Arwing accelerates through tunnel
-            player->unk_190 = D_ctx_80177A48[8];
+            player->engineGlowScaleTarget = D_ctx_80177A48[8];
             sp90 = 0;
             sp68.x = RAND_FLOAT_CENTERED(150.0f);
             sp68.y = RAND_FLOAT_CENTERED(150.0f);

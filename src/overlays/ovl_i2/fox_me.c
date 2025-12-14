@@ -2327,7 +2327,7 @@ void Meteo_LevelComplete(Player* player) {
             if (gCsFrameCount > 1390) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
 
                 if (gCsFrameCount == 1465) {
                     Audio_FadeOutAll(20);
@@ -2442,8 +2442,8 @@ void Meteo_LevelComplete(Player* player) {
 
         case 1390:
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-            player->unk_194 = 5.0f;
-            player->unk_190 = 5.0f;
+            player->engineGlowScale = 5.0f;
+            player->engineGlowScaleTarget = 5.0f;
             break;
 
         case 1400:

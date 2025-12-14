@@ -71,24 +71,24 @@ void Player_UpdateTankCamOnRails(Player* player) {
     if (player->grounded) {
         sp50 = player->pos.y + 100.0f + (-player->rot.x * 5.0f);
         sp4C = player->pos.y + player->rot.x * 10.0f;
-        sp50 += player->unk_17C * 0.5f;
-        sp4C += player->unk_17C * -5.0f;
+        sp50 += player->tankXrot * 0.5f;
+        sp4C += player->tankXrot * -5.0f;
 
         if (0 || (gCurrentLevel == LEVEL_MACBETH) && (D_MA_801BA1E8 == 102)) {
             sp50 = player->pos.y + 45.0f + (-player->rot.x * 5.0f);
             sp4C = player->pos.y + 200.0f + (player->rot.x * 10.0f);
-            sp50 += player->unk_17C * 0.2f;
-            sp4C += player->unk_17C * -3.0f;
+            sp50 += player->tankXrot * 0.2f;
+            sp4C += player->tankXrot * -3.0f;
         }
         if (D_MA_801BA1E8 == 99) {
             sp50 = player->pos.y + 40.0f + (-player->rot.x * 5.0f);
             sp4C = player->pos.y + 200.0f + (player->rot.x * 10.0f);
-            sp50 += player->unk_17C * 0.2f;
-            sp4C += player->unk_17C * -3.0f;
+            sp50 += player->tankXrot * 0.2f;
+            sp4C += player->tankXrot * -3.0f;
         } else if (D_MA_801BA1E8 == 98) {
             sp50 = player->pos.y + 100.0f;
             sp4C = player->pos.y + (player->rot.x * 10.0f);
-            sp4C += player->unk_17C * -3.0f;
+            sp4C += player->tankXrot * -3.0f;
         }
     } else {
         sp50 = player->pos.y + 50.0f;
@@ -155,7 +155,7 @@ void func_tank_80043B18(Player* player) {
     Vec3f sp3C;
     f32 sp38;
 
-    Matrix_Translate(gCalcMatrix, 0.0f, player->unk_18C + 30.0f, 0, MTXF_NEW);
+    Matrix_Translate(gCalcMatrix, 0.0f, player->tankThrustYOff + 30.0f, 0, MTXF_NEW);
     Matrix_RotateY(gCalcMatrix, player->yRot_114 * M_DTOR, MTXF_APPLY);
     Matrix_RotateX(gCalcMatrix, player->rot.x * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, (player->rot.z + player->rockAngle) * M_DTOR, MTXF_APPLY);
@@ -390,19 +390,19 @@ void func_tank_80044868(Player* player) {
         stickTilt = 0.0f;
     }
 
-    if (player->unk_17C < stickTilt) {
-        player->unk_17C += 3.0f;
+    if (player->tankXrot < stickTilt) {
+        player->tankXrot += 3.0f;
     }
 
-    if (stickTilt < player->unk_17C) {
-        player->unk_17C -= 3.0f;
+    if (stickTilt < player->tankXrot) {
+        player->tankXrot -= 3.0f;
     }
 
-    if (player->unk_180 < 0.0f) {
-        player->unk_180 += 3.0f;
+    if (player->tankYrot < 0.0f) {
+        player->tankYrot += 3.0f;
     }
-    if (player->unk_180 > 0.0f) {
-        player->unk_180 -= 3.0f;
+    if (player->tankYrot > 0.0f) {
+        player->tankYrot -= 3.0f;
     }
 
     gPlayerTurnRate = 3.0f;
@@ -422,38 +422,38 @@ void func_tank_80044868(Player* player) {
         sp2C = 3.0f;
     }
 
-    if (player->unk_16C > 0.2f) {
-        Math_SmoothStepToF(&player->unk_184, player->baseSpeed * 0.5f, 1.0f, 1.0f, 0.0f);
+    if (player->tankThrustL > 0.2f) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, player->baseSpeed * 0.5f, 1.0f, 1.0f, 0.0f);
     }
 
-    if (player->unk_170 > 0.2f) {
-        Math_SmoothStepToF(&player->unk_184, -player->baseSpeed * 0.5f, 1.0f, 1.0f, 0.0f);
+    if (player->tankThrustR > 0.2f) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, -player->baseSpeed * 0.5f, 1.0f, 1.0f, 0.0f);
     }
-    if (!(player->unk_170 > 0.2f) && !(player->unk_16C > 0.2f) && player->grounded) {
-        Math_SmoothStepToF(&player->unk_184, 0.0f, 1.0f, 0.75f, 0.0f);
+    if (!(player->tankThrustR > 0.2f) && !(player->tankThrustL > 0.2f) && player->grounded) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, 0.0f, 1.0f, 0.75f, 0.0f);
     }
 
     if (player->rollState != 0) {
         if (player->rollRate < 0) {
-            player->unk_184 = 15.0f;
+            player->tankXSpdRoll = 15.0f;
         }
         if (player->rollRate > 0) {
-            player->unk_184 = -15.0f;
+            player->tankXSpdRoll = -15.0f;
         }
     }
 
     player->vel.z = -(COS_DEG(player->rot_104.y) * COS_DEG(player->rot_104.x) * sp2C);
     if ((player->vel.x < 20.0f) && (player->rot_104.z < -30.0f)) {
         Math_SmoothStepToF(&player->vel.x, -player->rot_104.z * 0.5f, 0.2f, 3.0f, 0.0f);
-        player->unk_184 = 0.0f;
+        player->tankXSpdRoll = 0.0f;
     } else if ((player->vel.x > -20.0f) && (player->rot_104.z > 30.0f)) {
         Math_SmoothStepToF(&player->vel.x, -player->rot_104.z * 0.5f, 0.2f, 3.0f, 0.0f);
-        player->unk_184 = 0.0f;
+        player->tankXSpdRoll = 0.0f;
     } else {
-        Math_SmoothStepToF(&player->vel.x, player->unk_184 - (SIN_DEG(player->rot_104.y) * sp2C), 0.5f, 5.0f, 0.0f);
+        Math_SmoothStepToF(&player->vel.x, player->tankXSpdRoll - (SIN_DEG(player->rot_104.y) * sp2C), 0.5f, 5.0f, 0.0f);
     }
 
-    player->vel.z += fabsf((player->unk_184 * 0.4f * player->baseSpeed) / 15.0f);
+    player->vel.z += fabsf((player->tankXSpdRoll * 0.4f * player->baseSpeed) / 15.0f);
 
     if (player->unk_000 == 0) {
         player->vel.z += SIN_DEG(player->rot.x) * player->boostSpeed;
@@ -530,8 +530,8 @@ void func_tank_80044868(Player* player) {
 }
 
 void func_tank_80045130(Player* player) {
-    Math_SmoothStepToF(&player->unk_170, 0.0f, 1.0f, 0.2f, 0.0f);
-    Math_SmoothStepToF(&player->unk_16C, 0.0f, 1.0f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&player->tankThrustR, 0.0f, 1.0f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&player->tankThrustL, 0.0f, 1.0f, 0.2f, 0.0f);
 
     if (gInputPress->button & Z_TRIG) {
         player->sfx.bank = 1;
@@ -560,8 +560,8 @@ void func_tank_80045130(Player* player) {
             player->rollInputTimerR = 10;
         }
     }
-    player->unk_18C = fabsf(SIN_DEG(player->zRotBank) * 25.0f);
-    player->unk_18C += fabsf(SIN_DEG(player->zRotBarrelRoll) * 20.0f);
+    player->tankThrustYOff = fabsf(SIN_DEG(player->zRotBank) * 25.0f);
+    player->tankThrustYOff += fabsf(SIN_DEG(player->zRotBarrelRoll) * 20.0f);
 }
 
 void func_tank_80045348(Player* player) {
@@ -578,10 +578,10 @@ void func_tank_80045348(Player* player) {
             sTankActiveBurnerCount++;
             sp2E = true;
             if (D_800C9F24 == 0.0f) {
-                player->unk_190 = player->unk_194 = 4.0f;
+                player->engineGlowScaleTarget = player->engineGlowScale = 4.0f;
                 AUDIO_PLAY_SFX(NA_SE_TANK_DASH, player->sfxSource, 0);
             } else {
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
             }
             baseSpeedTarget = 25.0f;
             sp40 = -200.0f;
@@ -629,22 +629,22 @@ void func_tank_80045678(Player* player) {
         if (D_800C9F20 == 0.0f) {
             AUDIO_PLAY_SFX(NA_SE_TANK_BURNER_HALF, player->sfxSource, 0);
         }
-        player->unk_188 = 0.0f;
+        player->tankZRotBankOff = 0.0f;
         player->zRotBank += 4.0f;
         if (player->zRotBank > 50.0f) {
             player->zRotBank = 50.0f;
         }
-        Math_SmoothStepToF(&player->unk_170, 1.0f, 1.0f, 0.4f, 0.0f);
+        Math_SmoothStepToF(&player->tankThrustR, 1.0f, 1.0f, 0.4f, 0.0f);
         D_800C9F20 += 1.0f;
     } else {
         if (player->zRotBank > 0) {
-            player->unk_188 += 1.5f;
-            player->zRotBank -= player->unk_188;
+            player->tankZRotBankOff += 1.5f;
+            player->zRotBank -= player->tankZRotBankOff;
             if (player->zRotBank <= 0.0f) {
                 player->zRotBank = 0.0f;
-                if (player->unk_188 > 3.0f) {
-                    player->unk_188 *= -0.4f;
-                    player->zRotBank -= player->unk_188;
+                if (player->tankZRotBankOff > 3.0f) {
+                    player->tankZRotBankOff *= -0.4f;
+                    player->zRotBank -= player->tankZRotBankOff;
                 }
             }
         }
@@ -659,29 +659,29 @@ void func_tank_80045678(Player* player) {
         if (player->unk_2C0 == 0.0f) {
             AUDIO_PLAY_SFX(NA_SE_TANK_BURNER_HALF, player->sfxSource, 0);
         }
-        player->unk_188 = 0.0f;
+        player->tankZRotBankOff = 0.0f;
         player->zRotBank -= 4.0f;
         if (player->zRotBank < -50.0f) {
             player->zRotBank = -50.0f;
         }
-        Math_SmoothStepToF(&player->unk_16C, 1.0f, 1.0f, 0.4f, 0.0f);
+        Math_SmoothStepToF(&player->tankThrustL, 1.0f, 1.0f, 0.4f, 0.0f);
         player->unk_2C0 += 1.0f;
     } else {
         if (player->zRotBank < 0.0f) {
-            player->unk_188 += 1.5f;
-            player->zRotBank += player->unk_188;
+            player->tankZRotBankOff += 1.5f;
+            player->zRotBank += player->tankZRotBankOff;
             if (player->zRotBank >= 0.0f) {
                 player->zRotBank = 0.0f;
-                if (player->unk_188 > 3.0f) {
-                    player->unk_188 *= -0.4f;
-                    player->zRotBank += player->unk_188;
+                if (player->tankZRotBankOff > 3.0f) {
+                    player->tankZRotBankOff *= -0.4f;
+                    player->zRotBank += player->tankZRotBankOff;
                 }
             }
         }
         player->unk_2C0 = 0.0f;
     }
     Math_SmoothStepToF(&player->boostSpeed, 0.0f, 0.1f, 1.0f, 0);
-    if ((player->unk_16C > 0.2f) && (player->unk_170 > 0.2f) && (player->radioDamageTimer == 0)) {
+    if ((player->tankThrustL > 0.2f) && (player->tankThrustR > 0.2f) && (player->radioDamageTimer == 0)) {
         if (D_800C9F3C == 0) {
             D_800C9F3C = 1;
             Audio_KillSfxBySourceAndId(player->sfxSource, NA_SE_TANK_SLIDE);
@@ -707,11 +707,11 @@ void func_tank_80045678(Player* player) {
     } else {
         D_800C9F3C = 0;
         if ((gCamCount == 1) && ((gGameFrameCount % 4) == 0) && (player->rollState == 0)) {
-            if ((player->unk_16C > 0.2f) && (player->radioDamageTimer == 0)) {
+            if ((player->tankThrustL > 0.2f) && (player->radioDamageTimer == 0)) {
                 Effect_TiDust_Spawn(RAND_FLOAT_CENTERED(10.0f) + (player->pos.x - 57.0f), player->groundPos.y + 10.0f,
                                     player->trueZpos - 10.0f, RAND_FLOAT(1.0f) + 1.5f, 255, 15, 0);
             }
-            if ((player->unk_170 > 0.2f) && (player->radioDamageTimer == 0)) {
+            if ((player->tankThrustR > 0.2f) && (player->radioDamageTimer == 0)) {
                 Effect_TiDust_Spawn(RAND_FLOAT_CENTERED(10.0f) + (player->pos.x + 57.0f), player->groundPos.y + 10.0f,
                                     player->trueZpos - 10.0f, RAND_FLOAT(1.0f) + 1.5f, 255, 15, 0);
             }
@@ -775,10 +775,10 @@ void func_tank_80045E7C(Player* player) {
         }
         if ((player->rollTimer >= 5) && (player->hitTimer == 0) && (player->rollState != 9)) {
             if (player->rollRate > 0) {
-                player->unk_170 = 1.3f;
+                player->tankThrustR = 1.3f;
             }
             if (player->rollRate < 0) {
-                player->unk_16C = 1.3f;
+                player->tankThrustL = 1.3f;
             }
         }
     }
@@ -1240,7 +1240,7 @@ void func_tank_80047754(Player* player) {
                     Math_SmoothStepToF(&player->zRotBank, -30.0f, 1.0f, 10.0f, 0);
                     D_MA_801BE250[13] += 0; // fake?
                 }
-                player->unk_188 = 0;
+                player->tankZRotBankOff = 0;
                 if (player->pos.x < D_MA_801BE250[21]) {
                     player->vel.x = 0.0f;
                     player->pos.x += 8.0f;
@@ -1277,7 +1277,7 @@ label_29:
 }
 
 void func_tank_80047D38(Player* player, f32 arg1) {
-    if ((player->unk_16C > 0.2f) && (player->unk_170 > 0.2f) && (player->radioDamageTimer == 0) &&
+    if ((player->tankThrustL > 0.2f) && (player->tankThrustR > 0.2f) && (player->radioDamageTimer == 0) &&
         (player->vel.y >= 0.0f)) {
         return;
     }
@@ -1296,7 +1296,7 @@ void func_tank_80047D38(Player* player, f32 arg1) {
 }
 
 void func_tank_80047E7C(Player* player, f32 arg1, f32 arg2) {
-    player->unk_188 = 0.0f;
+    player->tankZRotBankOff = 0.0f;
     if (player->pos.x < arg1) {
         if (player->zRotBank >= -10.0f) {
             Math_SmoothStepToF(&player->zRotBank, 30.0f, 0.5f, 20.0f, 0);

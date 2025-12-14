@@ -303,35 +303,35 @@ static OramFieldInfo playerFields[] = {
     /* 0x11C */ STRUCT_FIELD(Player, f32, yRotVel_11C, 0),
     /* 0x120 */ STRUCT_FIELD(Player, f32, xRot_120, 0),
     /* 0x124 */ STRUCT_FIELD(Player, f32, pathChangePitch, 0),
-    /* 0x128 */ STRUCT_FIELD(Player, long, pad128, 0),
+    /* 0x128 */ STRUCT_FIELD(Player, f32, unk_128, 0),
     /* 0x12C */ STRUCT_FIELD(Player, f32, zRotBank, 0),
     /* 0x130 */ STRUCT_FIELD(Player, f32, zRotBarrelRoll, 0),
     /* 0x134 */ STRUCT_FIELD(Player, f32, damageShake, 0),
     /* 0x138 */ STRUCT_FIELD(Player, f32, trueZpos, 0), // the actual position of the arwing. pos.z is its z position
                                                         // along the path
-    /* 0x13C */ STRUCT_FIELD(Player, long, pad13C, 0),
+    /* 0x13C */ STRUCT_FIELD(Player, f32, unk_13C, 0),
     /* 0x140 */ STRUCT_FIELD(Player, f32, zPathVel, 0),
     /* 0x144 */ STRUCT_FIELD(Player, f32, zPath, 0),
     /* 0x148 */ STRUCT_FIELD(Player, f32, unk_148, 0), // affects how cam eye follows the player
     /* 0x14C */ STRUCT_FIELD(Player, f32, unk_14C, 0), // affects how cam at follows the player
     /* 0x150 */ STRUCT_FIELD(Player, f32, unk_150, 0),
-    /* 0x154 */ STRUCT_FIELD(Player, f32, unk_154, 0),
-    /* 0x158 */ STRUCT_FIELD(Player, f32, unk_158, 0),
-    /* 0x15C */ STRUCT_FIELD(Player, f32, unk_15C, 0),
-    /* 0x160 */ STRUCT_FIELD(Player, long, pad160, 0),
-    /* 0x164 */ STRUCT_FIELD(Player, f32, unk_164, 0),
-    /* 0x168 */ STRUCT_FIELD(Player, f32, unk_168, 0),
-    /* 0x16C */ STRUCT_FIELD(Player, f32, unk_16C, 0),
-    /* 0x170 */ STRUCT_FIELD(Player, f32, unk_170, 0),
-    /* 0x174 */ STRUCT_FIELD(Player, f32, unk_174, 0),
-    /* 0x178 */ STRUCT_FIELD(Player, f32, unk_178, 0),
-    /* 0x17C */ STRUCT_FIELD(Player, f32, unk_17C, 0),
-    /* 0x180 */ STRUCT_FIELD(Player, f32, unk_180, 0),
-    /* 0x184 */ STRUCT_FIELD(Player, f32, unk_184, 0),
-    /* 0x188 */ STRUCT_FIELD(Player, f32, unk_188, 0),
-    /* 0x18C */ STRUCT_FIELD(Player, f32, unk_18C, 0),
-    /* 0x190 */ STRUCT_FIELD(Player, f32, unk_190, 0), // Related to engine glow. Investigate
-    /* 0x194 */ STRUCT_FIELD(Player, f32, unk_194, 0), // Related to engine glow. Investigate
+    /* 0x154 */ STRUCT_FIELD(Player, f32, xRotGun, 0),
+    /* 0x158 */ STRUCT_FIELD(Player, f32, xRotFace, 0),
+    /* 0x15C */ STRUCT_FIELD(Player, f32, yRotFace, 0),
+    /* 0x160 */ STRUCT_FIELD(Player, f32, unk_160, 0),
+    /* 0x164 */ STRUCT_FIELD(Player, f32, xRotEarL, 0),
+    /* 0x168 */ STRUCT_FIELD(Player, f32, xRotEarR, 0),
+    /* 0x16C */ STRUCT_FIELD(Player, f32, tankThrustL, 0),
+    /* 0x170 */ STRUCT_FIELD(Player, f32, tankThrustR, 0),
+    /* 0x174 */ STRUCT_FIELD(Player, f32, tankYd, 0),
+    /* 0x178 */ STRUCT_FIELD(Player, f32, tankZd, 0),
+    /* 0x17C */ STRUCT_FIELD(Player, f32, tankXrot, 0),
+    /* 0x180 */ STRUCT_FIELD(Player, f32, tankYrot, 0),
+    /* 0x184 */ STRUCT_FIELD(Player, f32, tankXSpdRoll, 0),
+    /* 0x188 */ STRUCT_FIELD(Player, f32, tankZRotBankOff, 0),
+    /* 0x18C */ STRUCT_FIELD(Player, f32, tankThrustYOff, 0),
+    /* 0x190 */ STRUCT_FIELD(Player, f32, engineGlowScaleTarget, 0), // Related to engine glow. Investigate
+    /* 0x194 */ STRUCT_FIELD(Player, f32, engineGlowScale, 0), // Related to engine glow. Investigate
     /* 0x198 */ STRUCT_FIELD(Player, s32, savedAlternateView, 0),
     /* 0x19C */ STRUCT_FIELD(Player, s32, unk_19C, 0), // used to indicate whether a U-turn is forced, whether to draw
                                                        // ground in TI intro, and to stop the landmaster
@@ -382,7 +382,7 @@ static OramFieldInfo playerFields[] = {
     /* 0x248 */ STRUCT_FIELD(Player, f32, shadowRotX, 0), // forms YPR triple with groundRotY
     /* 0x24C */ STRUCT_FIELD(Player, f32, shadowRotZ, 0),
     /* 0x250 */ STRUCT_FIELD(Player, f32, unk_250, 0), // checked for by event actors, but unused?
-    /* 0x250 */ STRUCT_FIELD(Player, long, pad254, 0),
+    /* 0x250 */ STRUCT_FIELD(Player, f32, unk_254, 0),
     /* 0x258 */ STRUCT_FIELD(Player, f32, meteoWarpSpinSpeed, 0),
     /* 0x25C */ STRUCT_FIELD(Player, f32, contrailScale, 0),
     /* 0x260 */ STRUCT_FIELD(Player, long, pad260, 0),
@@ -390,7 +390,7 @@ static OramFieldInfo playerFields[] = {
     /* 0x268 */ STRUCT_FIELD(Player, s32, damage, 0),
     /* 0x26C */ STRUCT_FIELD(Player, s32, heal, 0),
     /* 0x270 */ STRUCT_FIELD(Player, s32, unk_270, 0), // checked for by event actors, but unused?
-    /* 0x274 */ STRUCT_FIELD(Player, long, pad274, 0),
+    /* 0x274 */ STRUCT_FIELD(Player, s32, unk_274, 0),
     /* 0x278 */ STRUCT_FIELD(Player, s32, timer_278, 0),
     /* 0x27C */ STRUCT_FIELD(Player, s32, meteoWarpTimer, 0),
     /* 0x280 */ STRUCT_FIELD(Player, s32, barrelRollAlpha, 0),

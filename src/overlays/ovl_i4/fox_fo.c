@@ -212,8 +212,8 @@ void Fortuna_UpdateEvents(ActorEvent* this) {
             Radio_PlayMessage(gMsg_ID_9411, RCID_FOX);
             gMissionStatus = MISSION_ACCOMPLISHED;
             gPlayer[0].csTimer = 50;
-            player->unk_190 = 5.0f;
-            player->unk_194 = 5.0f;
+            player->engineGlowScaleTarget = 5.0f;
+            player->engineGlowScale = 5.0f;
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM, 30);
             SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 30);
@@ -715,7 +715,7 @@ void Fortuna_LevelComplete(Player* player) {
                 Math_SmoothStepToF(&player->rot.z, 60.0f, 0.2f, 5.0f, 0.0f);
                 Math_SmoothStepToF(&player->rot.x, 0.0f, 0.1f, 2.5f, 0.0f);
             } else {
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
                 player->cam.eye.y += 3.0f;
                 Math_SmoothStepToF(&player->rot.z,
                                    Math_SmoothStepToF(&player->yRot_114,
@@ -739,14 +739,14 @@ void Fortuna_LevelComplete(Player* player) {
                     player->csTimer = 280;
                     player->csState = 1;
                 }
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
             }
             break;
 
         case 1:
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             Math_SmoothStepToF(&player->rot.x, 15.0f, 0.1f, 0.4f, 0.0f);
             Math_SmoothStepToF(&player->rot.z, -40.0f, 0.2f, 5.0f, 0.0f);
             Math_SmoothStepToF(&player->rot.y, -120.0f, 0.1f, 2.0f, 0.0f);
@@ -1041,8 +1041,8 @@ void Fortuna_LevelComplete(Player* player) {
                     peppy->vel.y = 0.1f;
                     slippy->vel.y = 0.1f;
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                    player->unk_194 = 5.0f;
-                    player->unk_190 = 5.0f;
+                    player->engineGlowScale = 5.0f;
+                    player->engineGlowScaleTarget = 5.0f;
                     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM, 50);
                     SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, 50);
                 }
@@ -1056,7 +1056,7 @@ void Fortuna_LevelComplete(Player* player) {
             player->baseSpeed *= 1.15f;
             player->pos.y += D_ctx_80177A48[4];
             D_ctx_80177A48[4] *= 1.19f;
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             if (gTeamShields[TEAM_ID_FALCO] > 0) {
                 if (player->csTimer == 980) {
@@ -1322,8 +1322,8 @@ void Fortuna_LevelComplete(Player* player) {
 
                 case 1300:
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-                    player->unk_190 = 2.0f;
-                    player->unk_194 = 5.0f;
+                    player->engineGlowScaleTarget = 2.0f;
+                    player->engineGlowScale = 5.0f;
                     break;
 
                 case 1350:

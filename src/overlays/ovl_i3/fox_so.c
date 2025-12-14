@@ -1207,9 +1207,9 @@ void Solar_LevelStart(Player* player) {
                 gActors[1].state = 2;
                 gActors[2].state = 1;
                 player->csTimer = 3;
-                player->unk_190 = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 player->csState++;
-                player->unk_194 = 5.0f;
+                player->engineGlowScale = 5.0f;
             }
             break;
 
@@ -1225,7 +1225,7 @@ void Solar_LevelStart(Player* player) {
             D_ctx_80177A48[0] = 0.03f;
             D_ctx_801779A8[gMainController] = 60.0f;
 
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
 
             if (player->csTimer == 0) {
                 gFillScreenAlphaTarget = 255;
@@ -3406,7 +3406,7 @@ void Solar_LevelComplete(Player* player) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.2f;
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.0f, 1.0f, 0.001f, 0);
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
             } else {
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.23f, 1.0f, 0.001f, 0.0f);
                 Math_SmoothStepToF(&D_ctx_80177A48[0], 0.5f, 0.1f, 0.0005f, 0.0f);
@@ -3493,7 +3493,7 @@ void Solar_LevelComplete(Player* player) {
 
         case 1460:
             AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, player->sfxSource, 0);
-            player->unk_190 = player->unk_194 = 5.0f;
+            player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
             break;
 
         case 1400:

@@ -1957,7 +1957,7 @@ void Katina_LevelComplete(Player* player) {
                 player->baseSpeed += 2.0f;
                 player->rot.x += 0.1f;
                 Math_SmoothStepToF(&D_ctx_80177A48[2], 0.0f, 1.0f, 0.001f, 0);
-                player->unk_190 = 2.0f;
+                player->engineGlowScaleTarget = 2.0f;
                 player->contrailScale += 0.04f;
                 if (player->contrailScale > 0.6f) {
                     player->contrailScale = 0.6f;
@@ -1997,7 +1997,7 @@ void Katina_LevelComplete(Player* player) {
 
                 case 1010:
                     AUDIO_PLAY_SFX(NA_SE_ARWING_BOOST, &player->sfxSource[0], 0);
-                    player->unk_190 = player->unk_194 = 5.0f;
+                    player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
                     break;
 
                 case 950:

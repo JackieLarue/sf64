@@ -2967,13 +2967,13 @@ void Player_SetupTankShot(Player* player, PlayerShot* shot, PlayerShotId shotId,
     Matrix_RotateY(gCalcMatrix, player->yRot_114 * M_DTOR, MTXF_APPLY);
     Matrix_RotateY(gCalcMatrix, (player->rot.y + 180.0f) * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, (-player->zRotBank - player->zRotBarrelRoll) * M_DTOR, MTXF_APPLY);
-    Matrix_RotateY(gCalcMatrix, -player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gCalcMatrix, -player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     sp54.x = 0;
     sp54.y = 0;
     sp54.z = speed;
     Matrix_MultVec3fNoTranslate(gCalcMatrix, &sp54, &sp48);
-    Matrix_Translate(gCalcMatrix, 0.0f, player->unk_18C + 30.0f, 0, MTXF_NEW);
+    Matrix_Translate(gCalcMatrix, 0.0f, player->tankThrustYOff + 30.0f, 0, MTXF_NEW);
     Matrix_RotateX(gCalcMatrix, player->rot.x * M_DTOR, MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, (player->rot.z + player->rockAngle) * M_DTOR, MTXF_APPLY);
     Matrix_RotateY(gCalcMatrix, player->yRot_114 * M_DTOR, MTXF_APPLY);
@@ -2982,8 +2982,8 @@ void Player_SetupTankShot(Player* player, PlayerShot* shot, PlayerShotId shotId,
     Matrix_Translate(gCalcMatrix, 0.0f, -30.0f, 0, MTXF_APPLY);
     Matrix_Translate(gCalcMatrix, player->xShake, player->yBob, 0.0f, MTXF_APPLY);
     Matrix_Translate(gCalcMatrix, 0.0f, 51.0f, -4.0f, MTXF_APPLY);
-    Matrix_RotateY(gCalcMatrix, -player->unk_180 * M_DTOR, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gCalcMatrix, -player->tankYrot * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     sp54.x = 0;
     sp54.y = 7;
     sp54.z = 0;
@@ -2995,8 +2995,8 @@ void Player_SetupTankShot(Player* player, PlayerShot* shot, PlayerShotId shotId,
     shot->obj.pos.y = player->pos.y + sp3C.y;
     shot->obj.pos.z = player->trueZpos + sp3C.z;
     shot->obj.status = SHOT_ACTIVE;
-    shot->vec_2C.x = -player->unk_17C;
-    shot->vec_2C.y = -player->unk_180;
+    shot->vec_2C.x = -player->tankXrot;
+    shot->vec_2C.y = -player->tankYrot;
     shot->vec_2C.z = player->zRotBank;
     shot->obj.rot.x = player->rot.x + player->xRot_120;
     shot->obj.rot.y = player->rot.y + player->yRot_114;
@@ -3104,7 +3104,7 @@ void Player_SetupOnFootShot(Player* player, PlayerShot* shot, PlayerShotId shotI
     Matrix_RotateY(gCalcMatrix, (player->yRot_114 + player->rot.y + player->damageShake + 180.0f) * M_DTOR, MTXF_NEW);
     Matrix_RotateX(gCalcMatrix, -((player->rot.x + player->damageShake) * M_DTOR), MTXF_APPLY);
     Matrix_RotateZ(gCalcMatrix, -((player->bankAngle + player->rockAngle + player->damageShake) * M_DTOR), MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_154 * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->xRotGun * M_DTOR, MTXF_APPLY);
 
     sp5C.x = 0.0f;
     sp5C.y = 0.0f;
@@ -3121,7 +3121,7 @@ void Player_SetupOnFootShot(Player* player, PlayerShot* shot, PlayerShotId shotI
     Matrix_RotateZ(gCalcMatrix, -((player->bankAngle + player->rockAngle + player->damageShake) * M_DTOR), MTXF_APPLY);
     Matrix_Translate(gCalcMatrix, 0.0f, player->yBob, 0, MTXF_APPLY);
     Matrix_Translate(gCalcMatrix, -10.0f, 25.0f, 0.0f, MTXF_APPLY);
-    Matrix_RotateX(gCalcMatrix, player->unk_154 * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gCalcMatrix, player->xRotGun * M_DTOR, MTXF_APPLY);
 
     sp5C.x = 0.0f;
     sp5C.y = 0.0f;
@@ -3155,7 +3155,7 @@ void Player_OnFootGun(Player* player) {
             Player_SetupOnFootShot(player, &gPlayerShots[i], PLAYERSHOT_ON_FOOT);
             Player_PlaySfx(player->sfxSource, NA_SE_TANK_SHOT, player->num);
             player->csTimer = 2;
-            player->unk_180 = 10.0f;
+            player->tankYrot = 10.0f;
             break;
         }
     }
@@ -3420,8 +3420,8 @@ void Player_ArwingBank(Player* player) {
 }
 
 void Player_UseTankJets(Player* player) {
-    Math_SmoothStepToF(&player->unk_170, 0.0f, 1.0f, 0.2f, 0.0f);
-    Math_SmoothStepToF(&player->unk_16C, 0.0f, 1.0f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&player->tankThrustR, 0.0f, 1.0f, 0.2f, 0.0f);
+    Math_SmoothStepToF(&player->tankThrustL, 0.0f, 1.0f, 0.2f, 0.0f);
 
     if (gInputPress->button & Z_TRIG) {
         if ((player->rollInputTimerL != 0) && (player->zRotBank > 0.0f) && (player->boostMeter < 10.0f)) {
@@ -3443,8 +3443,8 @@ void Player_UseTankJets(Player* player) {
         }
     }
 
-    player->unk_18C = fabsf(SIN_DEG(player->zRotBank) * 25.0f);
-    player->unk_18C += fabsf(SIN_DEG(player->zRotBarrelRoll) * 20.0f);
+    player->tankThrustYOff = fabsf(SIN_DEG(player->zRotBank) * 25.0f);
+    player->tankThrustYOff += fabsf(SIN_DEG(player->zRotBarrelRoll) * 20.0f);
 }
 
 void Player_UpdatePath(Player* player) {
@@ -3759,7 +3759,7 @@ void Player_PerformLoop(Player* player) {
         player->boostMeter = 90.0f;
     }
 
-    player->unk_190 = 2;
+    player->engineGlowScaleTarget = 2;
     Math_SmoothStepToF(&player->aerobaticPitch, 360.0f, 0.1f, 5.0f, 0.001f);
 
     if (player->aerobaticPitch > 350.0f) {
@@ -4019,18 +4019,18 @@ void Player_MoveTank360(Player* player) {
     if (var_fv1 > 0) {
         var_fv1 = 0;
     }
-    if (var_fv1 > player->unk_17C) {
-        player->unk_17C += 3.0f;
+    if (var_fv1 > player->tankXrot) {
+        player->tankXrot += 3.0f;
     }
-    if (var_fv1 < player->unk_17C) {
-        player->unk_17C -= 3.0f;
+    if (var_fv1 < player->tankXrot) {
+        player->tankXrot -= 3.0f;
     }
 
-    if (player->unk_180 < 0) {
-        player->unk_180 += 3.0f;
+    if (player->tankYrot < 0) {
+        player->tankYrot += 3.0f;
     }
-    if (player->unk_180 > 0) {
-        player->unk_180 -= 3.0f;
+    if (player->tankYrot > 0) {
+        player->tankYrot -= 3.0f;
     }
 
     gPlayerTurnRate = 3.0f;
@@ -4077,7 +4077,7 @@ void Player_MoveTank360(Player* player) {
     sp44.x = 0.0f;
     sp44.y = 0.0f;
     sp44.z = player->baseSpeed;
-    sp44.z -= fabsf((player->unk_184 * 0.4f * player->baseSpeed) / 15.0f);
+    sp44.z -= fabsf((player->tankXSpdRoll * 0.4f * player->baseSpeed) / 15.0f);
     sp44.z += SIN_DEG(player->unk_000) * player->boostSpeed;
 
     Matrix_MultVec3fNoTranslate(gCalcMatrix, &sp44, &sp38);
@@ -4085,27 +4085,27 @@ void Player_MoveTank360(Player* player) {
     player->vel.x = sp38.x;
     player->vel.z = sp38.z;
 
-    if (player->unk_16C > 0.2f) {
-        Math_SmoothStepToF(&player->unk_184, player->baseSpeed * 0.5f, 1.0f, 1.0f, 0);
+    if (player->tankThrustL > 0.2f) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, player->baseSpeed * 0.5f, 1.0f, 1.0f, 0);
     }
 
-    if (player->unk_170 > 0.2f) {
-        Math_SmoothStepToF(&player->unk_184, -player->baseSpeed * 0.5f, 1.0f, 1.0f, 0);
+    if (player->tankThrustR > 0.2f) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, -player->baseSpeed * 0.5f, 1.0f, 1.0f, 0);
     }
-    if (!(player->unk_170 > 0.2f) && !(player->unk_16C > 0.2f) && player->grounded) {
-        Math_SmoothStepToF(&player->unk_184, 0.0f, 1.0f, 0.75f, 0.0f);
+    if (!(player->tankThrustR > 0.2f) && !(player->tankThrustL > 0.2f) && player->grounded) {
+        Math_SmoothStepToF(&player->tankXSpdRoll, 0.0f, 1.0f, 0.75f, 0.0f);
     }
 
     if (player->rollState != 0) {
         if (player->rollRate < 0) {
-            player->unk_184 = 15.0f;
+            player->tankXSpdRoll = 15.0f;
         }
         if (player->rollRate > 0) {
-            player->unk_184 = -15.0f;
+            player->tankXSpdRoll = -15.0f;
         }
     }
 
-    sp44.x = -player->unk_184;
+    sp44.x = -player->tankXSpdRoll;
     sp44.y = 0;
     sp44.z = 0;
 
@@ -4157,17 +4157,17 @@ f32 D_800D30F4[4] = { 3.0f, 4.0f, 5.0f, 3.0f };
 f32 D_800D3104[4] = { 0.2f, 0.25f, 0.3f, 0.2f };
 
 void Player_OnFootUpdateSpeed(Player* player) {
-    f32 sp2C = 0.0f;
-    f32 sp28 = 0.7f;
-    f32 sp24 = 0.1f;
+    f32 t_0 = 0.0f;
+    f32 t_1 = 0.7f;
+    f32 mStep = 0.1f;
 
     if (gInputHold->button & R_TRIG) {
-        sp2C = 16.0f;
-        sp28 = D_800D30F4[gPlayerNum];
-        sp24 = D_800D3104[gPlayerNum];
+        t_0 = 16.0f;
+        t_1 = D_800D30F4[gPlayerNum];
+        mStep = D_800D3104[gPlayerNum];
     }
-    Math_SmoothStepToF(&player->baseSpeed, sp2C, 1.0f, 1.0f, 0.00001f);
-    Math_SmoothStepToF(&player->unk_008, sp28, 0.1f, sp24, 0.00001f);
+    Math_SmoothStepToF(&player->baseSpeed, t_0, 1.0f, 1.0f, 0.00001f);
+    Math_SmoothStepToF(&player->unk_008, t_1, 0.1f, mStep, 0.00001f);
 }
 
 void Player_MoveOnFoot(Player* player) {
@@ -4201,9 +4201,9 @@ void Player_MoveOnFoot(Player* player) {
         sp74 = var_fa0;
     }
 
-    Math_SmoothStepToF(&player->unk_154, sp74, 0.1f, 3.0f, 0.00001f);
-    Math_SmoothStepToF(&player->unk_180, 0.0f, 0.15f, 5.0f, 0.00001f);
-    Math_SmoothStepToF(&player->unk_158, sp74, 0.2f, 5.0f, 0.00001f);
+    Math_SmoothStepToF(&player->xRotGun, sp74, 0.1f, 3.0f, 0.00001f);
+    Math_SmoothStepToF(&player->tankYrot, 0.0f, 0.15f, 5.0f, 0.00001f);
+    Math_SmoothStepToF(&player->xRotFace, sp74, 0.2f, 5.0f, 0.00001f);
 
     gPlayerTurnRate = 3.0f;
     gPlayerTurnStickMod = 0.666f;
@@ -4217,22 +4217,22 @@ void Player_MoveOnFoot(Player* player) {
     player->bankAngle = player->rot.z;
 
     if ((sp74 != 0.0f) || (sp70 != 0.0f)) {
-        Math_SmoothStepToF(&player->unk_15C, sp74 * gPlayerTurnStickMod, 0.9f, 2.0f * gPlayerTurnRate, 0.1f);
-        Math_SmoothStepToF(&player->unk_164, sp74 * 0.3f, 0.1f, 10.0f, 0.00001f);
-        Math_SmoothStepToF(&player->unk_168, -sp74 * 0.3f, 0.1f, 10.0f, 0.00001f);
+        Math_SmoothStepToF(&player->yRotFace, sp74 * gPlayerTurnStickMod, 0.9f, 2.0f * gPlayerTurnRate, 0.1f);
+        Math_SmoothStepToF(&player->xRotEarL, sp74 * 0.3f, 0.1f, 10.0f, 0.00001f);
+        Math_SmoothStepToF(&player->xRotEarR, -sp74 * 0.3f, 0.1f, 10.0f, 0.00001f);
     } else {
         if (((gGameFrameCount % 16U) == 0) && (Rand_ZeroOne() < 0.5f)) {
-            player->unk_17C = RAND_FLOAT_CENTERED(100.0f);
+            player->tankXrot = RAND_FLOAT_CENTERED(100.0f);
         }
         if (((gGameFrameCount % 16U) == 3) && (Rand_ZeroOne() < 0.5f)) {
-            player->unk_174 = RAND_RANGE(-10.0f, 40.0f);
+            player->tankYd = RAND_RANGE(-10.0f, 40.0f);
         }
         if (((gGameFrameCount % 16U) == 10) && (Rand_ZeroOne() < 0.5f)) {
-            player->unk_178 = RAND_RANGE(-10.0f, 40.0f);
+            player->tankZd = RAND_RANGE(-10.0f, 40.0f);
         }
-        Math_SmoothStepToF(&player->unk_15C, player->unk_17C, 0.15f, 10.0f, 0.00001f);
-        Math_SmoothStepToF(&player->unk_164, player->unk_174, 0.1f, 10.0f, 0.00001f);
-        Math_SmoothStepToF(&player->unk_168, player->unk_178, 0.1f, 10.0f, 0.00001f);
+        Math_SmoothStepToF(&player->yRotFace, player->tankXrot, 0.15f, 10.0f, 0.00001f);
+        Math_SmoothStepToF(&player->xRotEarL, player->tankYd, 0.1f, 10.0f, 0.00001f);
+        Math_SmoothStepToF(&player->xRotEarR, player->tankZd, 0.1f, 10.0f, 0.00001f);
     }
 
     player->rot_104.y = player->rot.y;
@@ -4313,8 +4313,8 @@ void Player_MoveOnFoot(Player* player) {
             if (gGameFrameCount & 4) {
                 sp64 = 2.0f * player->baseSpeed;
             }
-            Math_SmoothStepToF(&player->unk_164, sp64, 0.5f, 20.0f, 0.0001f);
-            Math_SmoothStepToF(&player->unk_168, sp64, 0.5f, 20.0f, 0.0001f);
+            Math_SmoothStepToF(&player->xRotEarL, sp64, 0.5f, 20.0f, 0.0001f);
+            Math_SmoothStepToF(&player->xRotEarR, sp64, 0.5f, 20.0f, 0.0001f);
         } else {
             if (player->unk_010 > 0.0f) {
                 player->unk_010 -= 5.0f;
@@ -4339,8 +4339,8 @@ void Player_MoveOnFoot(Player* player) {
             }
             Math_SmoothStepToVec3fArray(sp48, player->jointTable, 1, 24, 0.2f, 10.0f, 0.01f);
             Math_SmoothStepToF(&player->yBob, -3.0f, 0.1f, 2.0f, 0.1f);
-            Math_SmoothStepToF(&player->unk_164, 0.0f, 0.03f, 1.0f, 0.0001f);
-            Math_SmoothStepToF(&player->unk_168, 0.0f, 0.03f, 1.0f, 0.0001f);
+            Math_SmoothStepToF(&player->xRotEarL, 0.0f, 0.03f, 1.0f, 0.0001f);
+            Math_SmoothStepToF(&player->xRotEarR, 0.0f, 0.03f, 1.0f, 0.0001f);
             player->unk_20C = 0;
             player->unk_00C = 0.0f;
         }
@@ -4442,8 +4442,8 @@ void Player_Setup(Player* playerx) {
         gLeftWingDebrisTimer[gPlayerNum] = D_ctx_80177990[gPlayerNum] = D_ctx_801779A8[gPlayerNum] =
             gMuzzleFlashScale[gPlayerNum] = 0.0f;
     gShieldAlpha[gPlayerNum] = 0.0f;
-    player->unk_190 = 1.0f;
-    player->unk_194 = 1.0f;
+    player->engineGlowScaleTarget = 1.0f;
+    player->engineGlowScale = 1.0f;
     gRadioState = gRadioMsgRadioId = gCurrentRadioPortrait = 0;
     D_ctx_8017853C = gRadioTextBoxScaleY = 0.0f;
     player->cam.eye.z = 400.0f;
@@ -4934,10 +4934,10 @@ void Player_UpdateTankRoll(Player* player) {
 
         if ((player->rollTimer >= 5) && (player->mercyTimer == 0)) {
             if (player->rollRate > 0) {
-                player->unk_170 = 1.3f;
+                player->tankThrustR = 1.3f;
             }
             if (player->rollRate < 0) {
-                player->unk_16C = 1.3f;
+                player->tankThrustL = 1.3f;
             }
         }
 
@@ -5031,8 +5031,8 @@ void Player_ArwingBoost(Player* player) {
             (player->state != PLAYERSTATE_U_TURN) && !player->boostCooldown) {
             if (player->boostMeter == 0.0f) {
                 Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
-                player->unk_194 = 5.0f;
-                player->unk_190 = 5.0f;
+                player->engineGlowScale = 5.0f;
+                player->engineGlowScaleTarget = 5.0f;
                 if (gBoostButton[player->num] & gInputPress->button) {
                     gLoopBoostTimers[gPlayerNum] = 5;
                 }
@@ -5053,7 +5053,7 @@ void Player_ArwingBoost(Player* player) {
             if (player->contrailScale > 0.6f) {
                 player->contrailScale = 0.6f;
             }
-            player->unk_190 = 2.0f;
+            player->engineGlowScaleTarget = 2.0f;
             player->boostSpeed += 2.0f;
             if (player->boostSpeed > 30.0f) {
                 player->boostSpeed = 30.0f;
@@ -5120,8 +5120,8 @@ void Player_ArwingBrake(Player* player) {
         player->unk_19C = 1;
         player->unk_000 = 0.0f;
         player->unk_004 = 0.0f;
-        player->unk_194 = 5.0f;
-        player->unk_190 = 5.0f;
+        player->engineGlowScale = 5.0f;
+        player->engineGlowScaleTarget = 5.0f;
         if (gCurrentLevel == LEVEL_CORNERIA) {
             gCoUturnCount++;
         }
@@ -5149,7 +5149,7 @@ void Player_ArwingBrake(Player* player) {
             player->boostMeter = 90.0f;
         }
 
-        player->unk_190 = 0.3f;
+        player->engineGlowScaleTarget = 0.3f;
         player->boostSpeed -= 1.0f;
         if (player->boostSpeed < -20.0f) {
             player->boostSpeed = -20.0f;
@@ -5192,12 +5192,12 @@ void Player_TankBoostBrake(Player* player) {
     sp2C = 20.0f;
     if ((gInputHold->button & gBoostButton[player->num]) && !player->boostCooldown) {
         if (player->boostMeter == 0.0f) {
-            player->unk_194 = 4.0f;
-            player->unk_190 = 4.0f;
+            player->engineGlowScale = 4.0f;
+            player->engineGlowScaleTarget = 4.0f;
             Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
         }
         Math_SmoothStepToF(&D_ctx_801779A8[player->num], 30.0f, 1.0f, 10.0f, 0.0f);
-        player->unk_190 = 2.0f;
+        player->engineGlowScaleTarget = 2.0f;
         sp2C = 35.0f;
         player->boostActive = true;
         Math_SmoothStepToF(&player->boostMeter, 90.0f, 1.0f, 1.0f, 0.0f);
@@ -5232,14 +5232,14 @@ void Player_UpdateTankJets(Player* player) {
             Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
         }
 
-        player->unk_188 = 0.0f;
+        player->tankZRotBankOff = 0.0f;
 
         player->zRotBank += 4.0f;
         if (player->zRotBank > 50.0f) {
             player->zRotBank = 50.0f;
         }
 
-        Math_SmoothStepToF(&player->unk_170, 1.0f, 1.0f, 0.4f, 0.0f);
+        Math_SmoothStepToF(&player->tankThrustR, 1.0f, 1.0f, 0.4f, 0.0f);
 
         player->boostActive = true;
 
@@ -5250,13 +5250,13 @@ void Player_UpdateTankJets(Player* player) {
         }
     } else {
         if (player->zRotBank > 0.0f) {
-            player->unk_188 += 1.5f;
-            player->zRotBank -= player->unk_188;
+            player->tankZRotBankOff += 1.5f;
+            player->zRotBank -= player->tankZRotBankOff;
             if (player->zRotBank <= 0.0f) {
                 player->zRotBank = 0.0f;
-                if (player->unk_188 > 3.0f) {
-                    player->unk_188 *= -0.4f;
-                    player->zRotBank -= player->unk_188;
+                if (player->tankZRotBankOff > 3.0f) {
+                    player->tankZRotBankOff *= -0.4f;
+                    player->zRotBank -= player->tankZRotBankOff;
                 }
             }
         }
@@ -5266,14 +5266,14 @@ void Player_UpdateTankJets(Player* player) {
             Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
         }
 
-        player->unk_188 = 0.0f;
+        player->tankZRotBankOff = 0.0f;
 
         player->zRotBank -= 4.0f;
         if (player->zRotBank < -50.0f) {
             player->zRotBank = -50.0f;
         }
 
-        Math_SmoothStepToF(&player->unk_16C, 1.0f, 1.0f, 0.4f, 0.0f);
+        Math_SmoothStepToF(&player->tankThrustL, 1.0f, 1.0f, 0.4f, 0.0f);
 
         player->boostActive = true;
 
@@ -5283,18 +5283,18 @@ void Player_UpdateTankJets(Player* player) {
             player->boostCooldown = true;
         }
     } else if (player->zRotBank < 0.0f) {
-        player->unk_188 += 1.5f;
-        player->zRotBank += player->unk_188;
+        player->tankZRotBankOff += 1.5f;
+        player->zRotBank += player->tankZRotBankOff;
         if (player->zRotBank >= 0.0f) {
             player->zRotBank = 0.0f;
-            if (player->unk_188 > 3.0f) {
-                player->unk_188 *= -0.4f;
-                player->zRotBank += player->unk_188;
+            if (player->tankZRotBankOff > 3.0f) {
+                player->tankZRotBankOff *= -0.4f;
+                player->zRotBank += player->tankZRotBankOff;
             }
         }
     }
 
-    if ((player->unk_16C > 0.2f) && (player->unk_170 > 0.2f) && (player->radioDamageTimer == 0)) {
+    if ((player->tankThrustL > 0.2f) && (player->tankThrustR > 0.2f) && (player->radioDamageTimer == 0)) {
         player->zRotBank += (((__cosf(gGameFrameCount * M_DTOR * 8.0f) * 10.0f) - player->zRotBank) * 0.1f);
         Math_SmoothStepToAngle(&player->rot.x, 0.0f, 0.05f, 5.0f, 0.00001f);
         Math_SmoothStepToAngle(&player->rot.z, 0.0f, 0.05f, 5.0f, 0.00001f);
@@ -5308,11 +5308,11 @@ void Player_UpdateTankJets(Player* player) {
                                    player->trueZpos - 10.0f, RAND_FLOAT(2.0f) + 4.0f);
         }
     } else if ((gCamCount == 1) && ((gGameFrameCount % 4) == 0) && (player->rollState == 0)) {
-        if ((player->unk_16C > 0.2f) && (player->radioDamageTimer == 0)) {
+        if ((player->tankThrustL > 0.2f) && (player->radioDamageTimer == 0)) {
             Effect_Effect362_Spawn(RAND_FLOAT_CENTERED(10.0f) + (player->pos.x - 57.0f), player->groundPos.y + 10.0f,
                                    player->trueZpos - 10.0f, RAND_FLOAT(2.0f) + 3.0f);
         }
-        if ((player->unk_170 > 0.2f) && (player->radioDamageTimer == 0)) {
+        if ((player->tankThrustR > 0.2f) && (player->radioDamageTimer == 0)) {
             Effect_Effect362_Spawn(RAND_FLOAT_CENTERED(10.0f) + (player->pos.x + 57.0f), player->groundPos.y + 10.0f,
                                    player->trueZpos - 10.0f, RAND_FLOAT(2.0f) + 3.0f);
         }
@@ -5722,7 +5722,7 @@ void Player_Update(Player* player) {
     f32 sp1C8;
     s32 sp1C4;
     s32 i;
-    Vec3f sp58[30];
+    Vec3f frameTbl[30];
     s32 pad;
 
     if (gVersusMode) {
@@ -5756,16 +5756,16 @@ void Player_Update(Player* player) {
     if ((player->state > PLAYERSTATE_INIT) && (player->form == FORM_ARWING) && !gVersusMode) {
         switch (player->wingPosition) {
             case 0:
-                sp1C4 = Animation_GetFrameData(&aAwWingsHalfOpenAnim, 0, sp58);
+                sp1C4 = Animation_GetFrameData(&aAwWingsHalfOpenAnim, 0, frameTbl);
                 break;
             case 1:
-                sp1C4 = Animation_GetFrameData(&aAwWingsClosedAnim, 0, sp58);
+                sp1C4 = Animation_GetFrameData(&aAwWingsClosedAnim, 0, frameTbl);
                 break;
             case 2:
-                sp1C4 = Animation_GetFrameData(&aAwWingsOpenAnim, 0, sp58);
+                sp1C4 = Animation_GetFrameData(&aAwWingsOpenAnim, 0, frameTbl);
                 break;
         }
-        Math_SmoothStepToVec3fArray(sp58, player->jointTable, 1, sp1C4, 0.1f, 1.3f, 0.0f);
+        Math_SmoothStepToVec3fArray(frameTbl, player->jointTable, 1, sp1C4, 0.1f, 1.3f, 0.0f);
     }
     player->sfx.bank = player->sfx.roll = 0;
     sp1C4 = player->whooshTimer;
@@ -5837,7 +5837,7 @@ void Player_Update(Player* player) {
                                 gVsMatchStart++;
                                 for (i = 0; i < 4; i++) {
                                     Player_PlaySfx(gPlayer[i].sfxSource, NA_SE_ARWING_BOOST, gPlayer[i].num);
-                                    gPlayer[i].unk_190 = gPlayer[i].unk_194 = 5.0f;
+                                    gPlayer[i].engineGlowScaleTarget = gPlayer[i].engineGlowScale = 5.0f;
                                 }
                             }
                             Player_Update360(player);
@@ -5934,7 +5934,7 @@ void Player_Update(Player* player) {
                 Player_Update360(player);
                 Camera_Update360(player, true);
                 Player_PlaySfx(player->sfxSource, NA_SE_ARWING_BOOST, player->num);
-                player->unk_190 = player->unk_194 = 5.0f;
+                player->engineGlowScaleTarget = player->engineGlowScale = 5.0f;
             } else if (player->attacker >= 0) {
                 if (player->attacker == 0) {
                     player->attacker = 1;
@@ -6045,16 +6045,16 @@ void Player_Update(Player* player) {
     Math_SmoothStepToF(&player->pathWidth, sp1C8, 1.0f, 10.0f, 0.0f);
 
     if (player->form == FORM_ARWING) {
-        Math_SmoothStepToF(&player->unk_194, player->unk_190, 0.5f, 5.0f, 0.0f);
+        Math_SmoothStepToF(&player->engineGlowScale, player->engineGlowScaleTarget, 0.5f, 5.0f, 0.0f);
         if (player->boostCooldown && (gPlayer[0].state == PLAYERSTATE_ACTIVE)) {
-            player->unk_190 = 0.5f;
+            player->engineGlowScaleTarget = 0.5f;
         } else {
-            player->unk_190 = 1.0f;
+            player->engineGlowScaleTarget = 1.0f;
         }
 
     } else if (player->form == FORM_LANDMASTER) {
-        Math_SmoothStepToF(&player->unk_194, player->unk_190, 0.5f, 0.5f, 0.0f);
-        player->unk_190 = 0.0f;
+        Math_SmoothStepToF(&player->engineGlowScale, player->engineGlowScaleTarget, 0.5f, 0.5f, 0.0f);
+        player->engineGlowScaleTarget = 0.0f;
     }
 }
 
@@ -6370,9 +6370,9 @@ void Camera_UpdateTank360(Player* player, s32 arg1) {
     Matrix_MultVec3fNoTranslate(gCalcMatrix, &sp54, &sp48);
 
     if (player->alternateView) {
-        Math_SmoothStepToF(&player->unk_02C, -player->unk_17C * 3.0f + 30.0f, 0.2f, 8.0f, 0.001f);
+        Math_SmoothStepToF(&player->unk_02C, -player->tankXrot * 3.0f + 30.0f, 0.2f, 8.0f, 0.001f);
     } else {
-        Math_SmoothStepToF(&player->unk_02C, -player->unk_17C * 3.0f, 0.2f, 8.0f, 0.001f);
+        Math_SmoothStepToF(&player->unk_02C, -player->tankXrot * 3.0f, 0.2f, 8.0f, 0.001f);
     }
 
     sp44 = player->pos.x + sp48.x;
@@ -6424,7 +6424,7 @@ void Camera_UpdateOnFoot360(Player* player, s32 arg1) {
     sp64.z = 60.0f - player->camDist;
 
     Matrix_MultVec3fNoTranslate(gCalcMatrix, &sp64, &sp58);
-    Math_SmoothStepToF(&player->unk_02C, -player->unk_158 * 0.5f, 0.07f, 3.0f, 0.001f);
+    Math_SmoothStepToF(&player->unk_02C, -player->xRotFace * 0.5f, 0.07f, 3.0f, 0.001f);
 
     sp4C.x = player->pos.x + sp58.x;
     sp4C.y = player->groundPos.y + 10.0f + sp58.y - (player->unk_02C * 0.8f);

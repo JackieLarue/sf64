@@ -882,24 +882,24 @@ void Aquas_BlueMarineMove(Player* player) {
 
     gPlayerTurnStickMod = 0.68f;
 
-    Math_SmoothStepToF(&player->unk_180, stickX * gPlayerTurnStickMod, 1.0f, 10.0f, 0.0001f);
+    Math_SmoothStepToF(&player->tankYrot, stickX * gPlayerTurnStickMod, 1.0f, 10.0f, 0.0001f);
 
-    var_fa0 = fabsf(player->unk_180 * 0.5f);
+    var_fa0 = fabsf(player->tankYrot * 0.5f);
     if (var_fa0 > 2.0f) {
         var_fa0 = 2.0f;
     }
 
-    if (player->unk_180 < 0.0f) {
-        if (D_i3_801C41B8[3] > player->unk_180) {
+    if (player->tankYrot < 0.0f) {
+        if (D_i3_801C41B8[3] > player->tankYrot) {
             D_i3_801C41B8[3] -= var_fa0;
         }
     } else {
-        if (D_i3_801C41B8[3] < player->unk_180) {
+        if (D_i3_801C41B8[3] < player->tankYrot) {
             D_i3_801C41B8[3] += var_fa0;
         }
     }
 
-    Math_SmoothStepToF(&D_i3_801C41B8[3], player->unk_180, 0.1f, 2.0f, 0.00001f);
+    Math_SmoothStepToF(&D_i3_801C41B8[3], player->tankYrot, 0.1f, 2.0f, 0.00001f);
 
     sp60 = D_i3_801C41B8[3];
     gPlayerTurnRate = 7.0f;
@@ -919,24 +919,24 @@ void Aquas_BlueMarineMove(Player* player) {
         Math_SmoothStepToF(&D_i3_801C41B8[9], 0.0f, 0.1f, 20.0f, 0.0001f);
     }
 
-    Math_SmoothStepToF(&player->unk_17C, stickY * gPlayerTurnStickMod, 1.0f, 7.0f, 0.0001f);
+    Math_SmoothStepToF(&player->tankXrot, stickY * gPlayerTurnStickMod, 1.0f, 7.0f, 0.0001f);
 
-    var_fa1 = fabsf(player->unk_17C * 0.05f);
+    var_fa1 = fabsf(player->tankXrot * 0.05f);
     if (var_fa1 > 2.0f) {
         var_fa1 = 2.0f;
     }
 
-    if (player->unk_17C * -1.0f < 0.0f) {
-        if (D_i3_801C41B8[4] > player->unk_17C) {
+    if (player->tankXrot * -1.0f < 0.0f) {
+        if (D_i3_801C41B8[4] > player->tankXrot) {
             D_i3_801C41B8[4] -= var_fa1;
         }
     } else {
-        if (D_i3_801C41B8[4] < player->unk_17C) {
+        if (D_i3_801C41B8[4] < player->tankXrot) {
             D_i3_801C41B8[4] += var_fa1;
         }
     }
 
-    Math_SmoothStepToF(&D_i3_801C41B8[4], player->unk_17C * -1.0f, 0.1f, 3.0f, 0.00001f);
+    Math_SmoothStepToF(&D_i3_801C41B8[4], player->tankXrot * -1.0f, 0.1f, 3.0f, 0.00001f);
 
     sp58 = D_i3_801C41B8[4] * 0.8f;
     gPlayerTurnRate = 10.0f;
@@ -969,7 +969,7 @@ void Aquas_BlueMarineMove(Player* player) {
         var_fv1_2 = 1.0f;
     }
 
-    Math_SmoothStepToF(&player->rot.z, player->unk_180 * 0.7f, 0.08f, var_fv1_2, 0.0001f);
+    Math_SmoothStepToF(&player->rot.z, player->tankYrot * 0.7f, 0.08f, var_fv1_2, 0.0001f);
 
     player->bankAngle = player->rot.z + player->zRotBank + player->zRotBarrelRoll;
 
@@ -1060,12 +1060,12 @@ void Aquas_BlueMarineMove(Player* player) {
         Matrix_MultVec3fNoTranslate(gCalcMatrix, &sp8C, &sp80);
 
         if (player->boostSpeed > 1.0f) {
-            player->unk_178 -= 30.0f;
+            player->tankZd -= 30.0f;
             Aquas_Bubble_Spawn(player->pos.x + RAND_FLOAT_CENTERED(10.0f) + sp80.x,
                                player->pos.y + RAND_FLOAT_CENTERED(10.0f) + sp80.y,
                                player->trueZpos + RAND_FLOAT_CENTERED(10.0f) + (sp80.z * -1.0f), 0.4f, 1);
         } else {
-            player->unk_178 -= 10.0f;
+            player->tankZd -= 10.0f;
             if ((gGameFrameCount % 8) == 0) {
                 Aquas_Bubble_Spawn(player->pos.x + RAND_FLOAT_CENTERED(10.0f) + sp80.x,
                                    player->pos.y + RAND_FLOAT_CENTERED(10.0f) + sp80.y,
@@ -1438,25 +1438,25 @@ void Aquas_BlueMarine_Draw(Player* player) {
     gSPDisplayList(gMasterDisp++, aBlueMarineBodyDL);
     Matrix_Push(&gGfxMatrix);
     Matrix_Translate(gGfxMatrix, 0.0f, -4.5f, 1.2f, MTXF_APPLY);
-    Matrix_RotateZ(gGfxMatrix, player->unk_178 * M_DTOR, MTXF_APPLY);
+    Matrix_RotateZ(gGfxMatrix, player->tankZd * M_DTOR, MTXF_APPLY);
     Matrix_SetGfxMtx(&gMasterDisp);
     gSPDisplayList(gMasterDisp++, aBlueMarinePropellerDL);
     Matrix_Pop(&gGfxMatrix);
     Matrix_Push(&gGfxMatrix);
     Matrix_Translate(gGfxMatrix, 0.0f, 2.0f, 40.0f, MTXF_APPLY);
-    Matrix_RotateY(gGfxMatrix, -player->unk_180 * M_DTOR, MTXF_APPLY);
+    Matrix_RotateY(gGfxMatrix, -player->tankYrot * M_DTOR, MTXF_APPLY);
     Matrix_SetGfxMtx(&gMasterDisp);
     gSPDisplayList(gMasterDisp++, aBlueMarineBackRudderDL);
     Matrix_Pop(&gGfxMatrix);
     Matrix_Push(&gGfxMatrix);
     Matrix_Translate(gGfxMatrix, -19.0f, -3.6f, 1.2f, MTXF_APPLY);
-    Matrix_RotateX(gGfxMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gGfxMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     Matrix_SetGfxMtx(&gMasterDisp);
     gSPDisplayList(gMasterDisp++, aBlueMarineLeftRudderDL);
     Matrix_Pop(&gGfxMatrix);
     Matrix_Push(&gGfxMatrix);
     Matrix_Translate(gGfxMatrix, 19.0f, -3.6f, 1.2f, MTXF_APPLY);
-    Matrix_RotateX(gGfxMatrix, player->unk_17C * M_DTOR, MTXF_APPLY);
+    Matrix_RotateX(gGfxMatrix, player->tankXrot * M_DTOR, MTXF_APPLY);
     Matrix_SetGfxMtx(&gMasterDisp);
     gSPDisplayList(gMasterDisp++, aBlueMarineRightRudderDL);
     Matrix_Pop(&gGfxMatrix);
